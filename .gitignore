@@ -1,4 +1,5 @@
 bin
+db
 .settings
 target/
 pom.xml.tag
