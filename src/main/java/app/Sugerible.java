@@ -1,4 +1,4 @@
-package turismo_en_la_tierra_media;
+package app;
 
 public abstract class Sugerible implements Comparable<Sugerible> {
 	

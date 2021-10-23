@@ -1,4 +1,4 @@
-package turismo_en_la_tierra_media;
+package app;
 
 import java.util.ArrayList;
 import java.util.Scanner;

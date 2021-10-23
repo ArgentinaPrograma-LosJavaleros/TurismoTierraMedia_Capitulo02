@@ -1,4 +1,4 @@
-package turismo_en_la_tierra_media;
+package app;
 
 public enum TipoPromocion {
 	PORCENTUAL,

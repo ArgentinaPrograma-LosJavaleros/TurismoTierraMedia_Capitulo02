@@ -1,4 +1,4 @@
-package turismo_en_la_tierra_media;
+package app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
