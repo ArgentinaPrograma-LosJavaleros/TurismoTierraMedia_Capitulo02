@@ -1,4 +1,6 @@
-package app;
+package model;
+
+import app.Tematica;
 
 public class Atraccion extends Sugerible {
 

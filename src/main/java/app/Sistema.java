@@ -3,6 +3,11 @@ package app;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import model.Atraccion;
+import model.PromoAxB;
+import model.Promocion;
+import model.Sugerible;
+
 public class Sistema {
 
 	private static ArrayList<Usuario> usuarios;

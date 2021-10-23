@@ -2,6 +2,8 @@ package app;
 
 import java.util.Comparator;
 
+import model.Sugerible;
+
 public class OrdenadorPorTematica implements Comparator<Sugerible> {
 
 	@Override

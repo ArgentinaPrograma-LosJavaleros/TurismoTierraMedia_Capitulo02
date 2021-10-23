@@ -1,4 +1,7 @@
-package app;
+package model;
+
+import app.Sistema;
+import app.Tematica;
 
 public abstract class Sugerible implements Comparable<Sugerible> {
 	

@@ -1,6 +1,10 @@
-package app;
+package model;
 
 import java.util.ArrayList;
+
+import app.Sistema;
+import app.Tematica;
+import app.TipoPromocion;
 
 public abstract class Promocion extends Sugerible {
 	

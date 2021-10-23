@@ -1,5 +1,10 @@
 package app;
 
+import model.Atraccion;
+import model.PromoAxB;
+import model.Promocion;
+import model.Sugerible;
+
 public class Usuario implements Comparable<Usuario>{
 
 	private String nombreUsuario;

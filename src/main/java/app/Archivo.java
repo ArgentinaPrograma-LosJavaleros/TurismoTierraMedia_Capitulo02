@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import model.Atraccion;
+import model.PromoAbsoluta;
+import model.PromoAxB;
+import model.PromoPorcentual;
+import model.Promocion;
+
 public class Archivo {
 
 	// Convierte en string la dirección de la carpeta "Archivos" en donde se está

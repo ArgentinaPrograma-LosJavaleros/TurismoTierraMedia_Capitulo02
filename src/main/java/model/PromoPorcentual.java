@@ -1,6 +1,8 @@
-package app;
+package model;
 
 import java.util.ArrayList;
+
+import app.TipoPromocion;
 
 public class PromoPorcentual extends Promocion {
 
