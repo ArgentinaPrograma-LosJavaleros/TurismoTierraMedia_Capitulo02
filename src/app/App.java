@@ -2,15 +2,19 @@ package app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import controller.UsuarioController;
+import jdbc.ConnectionProvider;
 import model.Usuario;
 
 public class App {
 
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-
+	public static void main(String[] args) throws FileNotFoundException, IOException, SQLException, NoExisteTematicaException {
+/*
 		boolean existe = false;
 		Scanner input = new Scanner(System.in);
 
@@ -38,6 +42,12 @@ public class App {
 		System.out.println("");
 		Sistema.cargarOfertas();
 
-		input.close();
+		input.close();*/
+		
+		UsuarioController user=new UsuarioController();
+		
+		for (Usuario u : user.findAll()) {
+		System.out.println(u);
+		}
 	}
 }

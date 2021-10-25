@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionProvider {
 	
 	private static Connection connection;
-	private static final String STRING_CONNECTION = "jdbc:sqlite:db/";
+	private static final String STRING_CONNECTION = "jdbc:sqlite:DB/tierra-media.db";
 	
 	private ConnectionProvider() {}
 	

@@ -1,17 +1,20 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import app.NoExisteTematicaException;
 
 public interface GenericDAO<T> {
 
-	public List<T> findAll();
+	public List<T> findAll() throws SQLException, NoExisteTematicaException;
 	
-	public int countAll();
+	public int countAll() throws SQLException;
 	
-	public int insert(T t);
+	public int insert(T t) throws SQLException;
 	
-	public int update(T t);
+	public int update(T t) throws SQLException;
 	
-	public int delete(T t);
+	public int delete(T t) throws SQLException;
 	
 }
