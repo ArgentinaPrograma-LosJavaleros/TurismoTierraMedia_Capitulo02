@@ -30,21 +30,45 @@ public class UsuarioDAOImp implements UsuarioDAO {
 										s.getInt("monedas"),
 										s.getDouble("tiempo"),
 										Tematica.toTematica(s.getInt("id_tematica"))));		
-		conex.close();
+		
 		
 		return listaDeUsuarios;
 	}
 
 	@Override
 	public int countAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Integer contar=0; 
+		Connection conex= ConnectionProvider.getConnection();
+		PreparedStatement datos= conex.prepareStatement("Select count(*) from usuarios");
+		
+		
+		ResultSet s= datos.executeQuery();
+		
+		contar=s.getInt(1);
+		
+		
+		
+		return contar;
 	}
 
 	@Override
 	public int insert(Usuario t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int correcto=0;
+		
+		
+		
+		Connection conex= ConnectionProvider.getConnection();
+		PreparedStatement datos= conex.prepareStatement("Insert into usuarios ('nombre', 'monedas','tiempo','id_tematica')  values(?,?,?,?)");
+		
+		
+		datos.setString(1, t.getNombre());
+		datos.setInt(2, t.getCantidadMonedas());
+		datos.setDouble(3, t.getTiempoDisponible());
+		datos.setInt(4, t.getPreferenciaUsuario().ordinal()+1);
+		
+		correcto=datos.executeUpdate();
+		
+		return correcto;
 	}
 
 	@Override

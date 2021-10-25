@@ -2,11 +2,11 @@ package app;
 
 public enum Tematica {
 	AVENTURA("Aventura"), 
-	DEGUSTACION("Desgutación"), 
 	PAISAJE("Paisaje"), 
+	DEGUSTACION("Desgutación"), 
+	EXTREMO("Extremo"),
 	ENTRETENIMIENTO("Entretenimiento"),
-	CARRERA("Carrera"), 
-	EXTREMO("Extremo");
+	CARRERA("Carrera"); 
 
 	private String nombre;
 
@@ -38,5 +38,7 @@ public enum Tematica {
 		
 		return Tematica.values()[id-1];
 	}
+	
+	
 
 }

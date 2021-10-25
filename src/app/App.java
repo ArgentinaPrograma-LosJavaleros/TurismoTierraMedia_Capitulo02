@@ -46,8 +46,19 @@ public class App {
 		
 		UsuarioController user=new UsuarioController();
 		
+		System.out.println("Cantidad de Usuarios= " + user.countAll());
+		
+		
 		for (Usuario u : user.findAll()) {
 		System.out.println(u);
 		}
+		
+		
+		//System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, Tematica.PAISAJE )));
+		
+		
+		
+		
+		ConnectionProvider.closeConnection();
 	}
 }

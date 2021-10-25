@@ -14,4 +14,13 @@ public class UsuarioController extends UsuarioDAOImp {
 		
 	}
 	
+	public int countAll() throws SQLException {
+		 return super.countAll();
+		
+	}
+	
+	public int insert(Usuario t) throws SQLException {
+		
+		return super.insert(t);
+	}
 }
