@@ -53,12 +53,15 @@ public class App {
 		System.out.println(u);
 		}
 		
-		
 		//System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, Tematica.PAISAJE )));
 		//System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, Tematica.EXTREMO )));
+		//System.out.println(user.update(new Usuario(1, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION)));
+		
 		//System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
+		//System.out.println(user.insert(new Usuario(null, "Chiruzi2", 65, 4.0, Tematica.DEGUSTACION )));
 		
-		
+		System.out.println(user.delete(new Usuario(18, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
+		System.out.println(user.deleteBy("nombre", "String", "Chiruzi"));
 		
 		ConnectionProvider.closeConnection();
 	}

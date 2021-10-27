@@ -10,44 +10,79 @@ import jdbc.ConnectionProvider;
 
 public class CRUD {
 
-	public static ResultSet select (String tabla, String campos) throws SQLException {
+	public static ResultSet select(String tabla, String campos) throws SQLException {
 		
-		Connection conex= ConnectionProvider.getConnection();
-		PreparedStatement datos= conex.prepareStatement("Select " + campos + " from " + tabla);
+		Connection conex = ConnectionProvider.getConnection();
+		PreparedStatement datos = conex.prepareStatement("SELECT " + campos + " FROM " + tabla);
 		
 		return datos.executeQuery();
-		
-		
 	}
 	
-	public static int insert (String tabla, List <String> columna, List <String> tipo,List <String> valor) throws SQLException {
+	public static int insertOrUpdate(String tabla, List<String> columna, List<String> tipo, List<String> valor) throws SQLException {
 		
 		String rows = "";
 		String values = "";
+		String query = "";
 		
-		
-		String query = "insert into " + tabla + " (";
-		for (int i= 0; i< columna.size(); i++) {
-			rows = rows + columna.get(i)+ ", ";
-			values = values+ "?, ";
+		if(columna.get(0).contains("id")) {
+			query = "UPDATE " + tabla + " SET ";
+			
+			for(int i = 1; i < columna.size(); i++) {
+				rows += columna.get(i) + " = ?, ";
+			}
+			
+			values = " WHERE " + columna.get(0) + " = " + valor.get(0);
+			query += rows.substring(0, rows.length()-2) + values; 
+			
+			valor.remove(0);
+			columna.remove(0);
+			tipo.remove(0);
+			
+		} else {
+			query = "INSERT INTO " + tabla + " (";
+			
+			for (int i = 0; i < columna.size(); i++) {
+				rows += columna.get(i)+ ", ";
+				values += "?, ";
+			}
+			
+			query += rows.substring(0, rows.length()-2) + ") VALUES (" + values.substring(0, values.length()-2) + ")"; 			
 		}
 		
-		query= query+ rows.substring(0, rows.length()-2) + ") values (" + values.substring(0, values.length()-2) + ")"; 
+		Connection conex = ConnectionProvider.getConnection();
+		PreparedStatement datos = conex.prepareStatement(query);
 		
-		Connection conex= ConnectionProvider.getConnection();
-		PreparedStatement datos= conex.prepareStatement(query);
-		for (int i= 0; i< columna.size(); i++) {
+		for (int i = 0; i < columna.size(); i++) {
 			
 			if (tipo.get(i).toLowerCase().equals("int"))
-				datos.setInt(i+1, Integer.parseInt(valor.get(i)));
+				datos.setInt(i + 1, Integer.parseInt(valor.get(i)));
 			
 			if (tipo.get(i).toLowerCase().equals("double"))
-				datos.setDouble(i+1, Double.parseDouble(valor.get(i)));
+				datos.setDouble(i + 1, Double.parseDouble(valor.get(i)));
 			
 			if (tipo.get(i).toLowerCase().equals("string"))
-				datos.setString(i+1, valor.get(i));
+				datos.setString(i + 1, valor.get(i));
 		}
 
+		return datos.executeUpdate();
+	}
+	
+	public static int delete(String tabla, String columna, String valor, String tipo) throws SQLException {
+		
+		String query = "DELETE FROM " + tabla + " WHERE " + columna + " = ?";
+		
+		Connection conex = ConnectionProvider.getConnection();
+		PreparedStatement datos = conex.prepareStatement(query);
+		
+		if (tipo.toLowerCase().equals("int"))
+			datos.setInt(1, Integer.parseInt(valor));
+		
+		if (tipo.toLowerCase().equals("double"))
+			datos.setDouble(1, Double.parseDouble(valor));
+		
+		if (tipo.toLowerCase().equals("string"))
+			datos.setString(1, valor);
+		
 		return datos.executeUpdate();
 	}
 	

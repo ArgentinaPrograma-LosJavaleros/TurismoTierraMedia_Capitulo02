@@ -32,10 +32,7 @@ public enum Tematica {
 		return this.nombre;
 	}
 	
-	
 	public static Tematica toTematica(Integer id) throws NoExisteTematicaException {
-		
-		
 		return Tematica.values()[id-1];
 	}
 	

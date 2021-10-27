@@ -17,4 +17,6 @@ public interface GenericDAO<T> {
 	
 	public int delete(T t) throws SQLException;
 	
+	public int deleteBy(String campo, String tipo, String valor) throws SQLException;
+
 }

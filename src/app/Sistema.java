@@ -71,6 +71,7 @@ public class Sistema {
 		Ticket ticket = new Ticket();
 
 		Tematica tematica = u.getPreferenciaUsuario();
+		
 		for (Promocion p : Sistema.getPromociones()) {
 			if (verificarSugerible(p, ticket)) {
 				System.out.println("Le sugerimos la siguiente Promoción:");
@@ -87,6 +88,7 @@ public class Sistema {
 				}
 			}
 		}
+		
 		for (Atraccion a : Sistema.getAtracciones()) {
 			if (verificarSugerible(a, ticket)) {
 				System.out.println("Le sugerimos la siguiente Atracción:");
@@ -102,6 +104,7 @@ public class Sistema {
 				}
 			}
 		}
+		
 		ingreso.close();
 		System.out.println(ticket);
 	}

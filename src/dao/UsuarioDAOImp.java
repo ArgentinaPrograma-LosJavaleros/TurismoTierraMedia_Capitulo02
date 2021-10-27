@@ -1,7 +1,5 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +7,6 @@ import java.util.List;
 
 import app.NoExisteTematicaException;
 import app.Tematica;
-import jdbc.ConnectionProvider;
 import model.Usuario;
 
 public class UsuarioDAOImp implements UsuarioDAO {
@@ -44,37 +41,64 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public int insert(Usuario t) throws SQLException {
 		
-		List <String> columnas= new ArrayList <String> ();
-		List <String> tipos= new ArrayList <String> (); 
-		List <String> values= new ArrayList <String> (); 
+		List<String> columnas= new ArrayList <String> ();
+		List<String> tipos= new ArrayList <String> (); 
+		List<String> values= new ArrayList <String> (); 
 		
-		columnas.add("'nombre'");
-		columnas.add("'monedas'");
-		columnas.add("'tiempo'");
-		columnas.add("'id_tematica'");
+		columnas.add("nombre");
+		columnas.add("monedas");
+		columnas.add("tiempo");
+		columnas.add("id_tematica");
+		
 		tipos.add("String");
 		tipos.add("Int");
 		tipos.add("Double");
 		tipos.add("Int");
+		
 		values.add(t.getNombre());
 		values.add(t.getCantidadMonedas().toString());
 		values.add(t.getTiempoDisponible().toString());
 		values.add(String.valueOf(t.getPreferenciaUsuario().ordinal()+1));
 				
-		return CRUD.insert("usuarios", columnas, tipos, values);
-		
+		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}
 
 	@Override
 	public int update(Usuario t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+
+		List<String> columnas= new ArrayList<String> ();
+		List<String> tipos= new ArrayList<String> (); 
+		List<String> values= new ArrayList<String> (); 
+		
+		columnas.add("id_usuario");
+		columnas.add("nombre");
+		columnas.add("monedas");
+		columnas.add("tiempo");
+		columnas.add("id_tematica");
+		
+		tipos.add("Int");
+		tipos.add("String");
+		tipos.add("Int");
+		tipos.add("Double");
+		tipos.add("Int");
+		
+		values.add(t.getIdUsuario().toString());
+		values.add(t.getNombre());
+		values.add(t.getCantidadMonedas().toString());
+		values.add(t.getTiempoDisponible().toString());
+		values.add(String.valueOf(t.getPreferenciaUsuario().ordinal()+1));
+				
+		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}
 
 	@Override
 	public int delete(Usuario t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		return CRUD.delete("usuarios", "id_usuario", t.getIdUsuario().toString(), "int");
+	}
+
+	@Override
+	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
+		return CRUD.delete("usuarios", campo, valor, tipo);
 	}
 
 }

@@ -58,23 +58,23 @@ public class Usuario implements Comparable<Usuario>{
 	//--------------------------------------------------------------------------
 		
 	public Integer getIdUsuario() {
-		return idUsuario;
+		return this.idUsuario;
 	}
 	
 	public String getNombre() {
-		return nombreUsuario;
+		return this.nombreUsuario;
 	}
 	
 	public Double getTiempoDisponible() {
-		return tiempoDisponible;
+		return this.tiempoDisponible;
 	}
 
 	public Integer getCantidadMonedas() {
-		return cantidadMonedas;
+		return this.cantidadMonedas;
 	}
 	
 	public Tematica getPreferenciaUsuario() {
-		return preferenciaUsuario;
+		return this.preferenciaUsuario;
 	}
 	//--------------------------------------------------------------------------
 
