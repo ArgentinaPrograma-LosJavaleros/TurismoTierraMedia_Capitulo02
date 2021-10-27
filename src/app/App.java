@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import controller.AtraccionController;
 import controller.UsuarioController;
 import jdbc.ConnectionProvider;
+import model.Atraccion;
 import model.Usuario;
 
 public class App {
@@ -44,7 +46,8 @@ public class App {
 
 		input.close();*/
 		
-		UsuarioController user=new UsuarioController();
+		UsuarioController user = new UsuarioController();
+		AtraccionController atraccion = new AtraccionController();
 		
 		System.out.println("Cantidad de Usuarios= " + user.countAll());
 		
@@ -60,8 +63,15 @@ public class App {
 		//System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
 		//System.out.println(user.insert(new Usuario(null, "Chiruzi2", 65, 4.0, Tematica.DEGUSTACION )));
 		
-		System.out.println(user.delete(new Usuario(18, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
-		System.out.println(user.deleteBy("nombre", "String", "Chiruzi"));
+		//System.out.println(user.delete(new Usuario(18, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
+		//System.out.println(user.deleteBy("nombre", "String", "Chiruzi"));
+		
+//		Sistema.setAtracciones(Archivo.cargarAtracciones());
+//		for (Atraccion a: Sistema.getAtracciones())
+//			atraccion.insert(a);
+//		for (Atraccion a: atraccion.findAll()) {
+//			System.out.println(a);
+//		}
 		
 		ConnectionProvider.closeConnection();
 	}

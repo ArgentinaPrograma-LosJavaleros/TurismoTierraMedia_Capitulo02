@@ -98,7 +98,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("usuarios", campo, valor, tipo);
+		return CRUD.delete("usuarios", campo, tipo, valor);
 	}
 
 }

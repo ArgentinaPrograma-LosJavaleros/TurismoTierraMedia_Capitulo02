@@ -4,13 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 import app.NoExisteTematicaException;
-import dao.CRUD;
-import dao.UsuarioDAOImp;
+import dao.AtraccionDAOImp;
+import model.Atraccion;
 import model.Usuario;
 
-public class UsuarioController extends UsuarioDAOImp {
+public class AtraccionController extends AtraccionDAOImp {
 	@Override
-	public List<Usuario> findAll()  throws SQLException, NoExisteTematicaException{
+	public List<Atraccion> findAll()  throws SQLException, NoExisteTematicaException{
 		return super.findAll();
 	}
 	
@@ -20,17 +20,17 @@ public class UsuarioController extends UsuarioDAOImp {
 	}
 	
 	@Override	
-	public int insert(Usuario t) throws SQLException {
+	public int insert(Atraccion t) throws SQLException {
 		return super.insert(t);
 	}
 
 	@Override
-	public int update(Usuario t) throws SQLException {
+	public int update(Atraccion t) throws SQLException {
 		return super.update(t);
 	}
-	
+
 	@Override
-	public int delete(Usuario t) throws SQLException {
+	public int delete(Atraccion t) throws SQLException {
 		return super.delete(t);
 	}
 

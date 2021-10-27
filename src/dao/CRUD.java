@@ -67,7 +67,7 @@ public class CRUD {
 		return datos.executeUpdate();
 	}
 	
-	public static int delete(String tabla, String columna, String valor, String tipo) throws SQLException {
+	public static int delete(String tabla, String columna, String tipo, String valor) throws SQLException {
 		
 		String query = "DELETE FROM " + tabla + " WHERE " + columna + " = ?";
 		
