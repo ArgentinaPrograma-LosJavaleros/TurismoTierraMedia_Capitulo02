@@ -19,11 +19,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		
 		List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 		
-		
-		Connection conex= ConnectionProvider.getConnection();
-		PreparedStatement datos= conex.prepareStatement("Select * from usuarios");
-		
-		ResultSet s= datos.executeQuery();
+		ResultSet s= CRUD.select("usuarios", "*");
 		while (s.next())
 		listaDeUsuarios.add(new Usuario(s.getInt("id_usuario"), 
 										s.getString("nombre"), 
@@ -31,44 +27,42 @@ public class UsuarioDAOImp implements UsuarioDAO {
 										s.getDouble("tiempo"),
 										Tematica.toTematica(s.getInt("id_tematica"))));		
 		
-		
 		return listaDeUsuarios;
 	}
 
 	@Override
 	public int countAll() throws SQLException {
 		Integer contar=0; 
-		Connection conex= ConnectionProvider.getConnection();
-		PreparedStatement datos= conex.prepareStatement("Select count(*) from usuarios");
-		
-		
-		ResultSet s= datos.executeQuery();
+				
+		ResultSet s= CRUD.select("usuarios", "count(*)");
 		
 		contar=s.getInt(1);
-		
-		
 		
 		return contar;
 	}
 
 	@Override
 	public int insert(Usuario t) throws SQLException {
-		int correcto=0;
 		
+		List <String> columnas= new ArrayList <String> ();
+		List <String> tipos= new ArrayList <String> (); 
+		List <String> values= new ArrayList <String> (); 
 		
+		columnas.add("'nombre'");
+		columnas.add("'monedas'");
+		columnas.add("'tiempo'");
+		columnas.add("'id_tematica'");
+		tipos.add("String");
+		tipos.add("Int");
+		tipos.add("Double");
+		tipos.add("Int");
+		values.add(t.getNombre());
+		values.add(t.getCantidadMonedas().toString());
+		values.add(t.getTiempoDisponible().toString());
+		values.add(String.valueOf(t.getPreferenciaUsuario().ordinal()+1));
+				
+		return CRUD.insert("usuarios", columnas, tipos, values);
 		
-		Connection conex= ConnectionProvider.getConnection();
-		PreparedStatement datos= conex.prepareStatement("Insert into usuarios ('nombre', 'monedas','tiempo','id_tematica')  values(?,?,?,?)");
-		
-		
-		datos.setString(1, t.getNombre());
-		datos.setInt(2, t.getCantidadMonedas());
-		datos.setDouble(3, t.getTiempoDisponible());
-		datos.setInt(4, t.getPreferenciaUsuario().ordinal()+1);
-		
-		correcto=datos.executeUpdate();
-		
-		return correcto;
 	}
 
 	@Override
@@ -83,5 +77,4 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		return 0;
 	}
 
-	
 }

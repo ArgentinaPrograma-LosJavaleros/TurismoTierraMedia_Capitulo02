@@ -55,7 +55,8 @@ public class App {
 		
 		
 		//System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, Tematica.PAISAJE )));
-		
+		//System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, Tematica.EXTREMO )));
+		//System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
 		
 		
 		
