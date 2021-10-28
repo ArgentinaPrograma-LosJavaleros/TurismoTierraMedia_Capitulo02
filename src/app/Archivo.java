@@ -48,13 +48,11 @@ public class Archivo {
 
 				// Añade al usuario al arraylist de usuarios con su nombre, monedas, tiempo y
 				// temática preferida.
-				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, Tematica.toTematica(valores[3])));
+				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, new Tematica(Integer.valueOf(valores[3]))));
 
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (NoExisteTematicaException e) {
 			e.printStackTrace();
 		} finally {
 			sc.close();
@@ -89,13 +87,11 @@ public class Archivo {
 
 				// Añade la atracción al arraylist con su nombre, costo, tiempo, cupo y
 				// temática.
-				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos, Tematica.toTematica(valores[4])));
+				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos, new Tematica(Integer.valueOf(valores[3]))));
 
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (NoExisteTematicaException e) {
 			e.printStackTrace();
 		} finally {
 			sc.close();

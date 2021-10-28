@@ -16,24 +16,24 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		
 		List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 		
-		ResultSet s= CRUD.select("usuarios", "*");
+		ResultSet s = CRUD.select("usuarios", "*");
 		while (s.next())
 		listaDeUsuarios.add(new Usuario(s.getInt("id_usuario"), 
 										s.getString("nombre"), 
 										s.getInt("monedas"),
 										s.getDouble("tiempo"),
-										Tematica.toTematica(s.getInt("id_tematica"))));		
+										new Tematica(s.getInt("id_tematica"))));		
 		
 		return listaDeUsuarios;
 	}
 
 	@Override
 	public int countAll() throws SQLException {
-		Integer contar=0; 
+		Integer contar = 0; 
 				
-		ResultSet s= CRUD.select("usuarios", "count(*)");
+		ResultSet s = CRUD.select("usuarios", "count(*)");
 		
-		contar=s.getInt(1);
+		contar = s.getInt(1);
 		
 		return contar;
 	}
@@ -41,9 +41,9 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public int insert(Usuario t) throws SQLException {
 		
-		List<String> columnas= new ArrayList <String> ();
-		List<String> tipos= new ArrayList <String> (); 
-		List<String> values= new ArrayList <String> (); 
+		List<String> columnas= new ArrayList<String> ();
+		List<String> tipos= new ArrayList<String> (); 
+		List<String> values= new ArrayList<String> (); 
 		
 		columnas.add("nombre");
 		columnas.add("monedas");
@@ -58,7 +58,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getNombre());
 		values.add(t.getCantidadMonedas().toString());
 		values.add(t.getTiempoDisponible().toString());
-		values.add(String.valueOf(t.getPreferenciaUsuario().ordinal()+1));
+		values.add(t.getPreferenciaUsuario().getId().toString());
 				
 		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}
@@ -86,7 +86,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getNombre());
 		values.add(t.getCantidadMonedas().toString());
 		values.add(t.getTiempoDisponible().toString());
-		values.add(String.valueOf(t.getPreferenciaUsuario().ordinal()+1));
+		values.add(t.getPreferenciaUsuario().getId().toString());
 				
 		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}

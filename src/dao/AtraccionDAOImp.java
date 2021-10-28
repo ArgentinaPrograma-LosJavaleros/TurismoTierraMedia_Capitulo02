@@ -23,7 +23,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 										s.getInt("cupos"),
 										s.getDouble("tiempo"),
 										s.getInt("costo"),
-										Tematica.toTematica(s.getInt("id_tematica"))));		
+										new Tematica(s.getInt("id_tematica"))));		
 		
 		return listaDeAtraccions;
 	}
@@ -62,7 +62,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		values.add(t.getCupoUsuarios().toString());
 		values.add(t.getTiempo().toString());
 		values.add(t.getCosto().toString());
-		values.add(String.valueOf(t.getTematica().ordinal()+1));
+		values.add(t.getTematica().getId().toString());
 				
 		return CRUD.insertOrUpdate("atracciones", columnas, tipos, values);
 	}
@@ -93,8 +93,8 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		values.add(t.getCupoUsuarios().toString());
 		values.add(t.getTiempo().toString());
 		values.add(t.getCosto().toString());
-		values.add(String.valueOf(t.getTematica().ordinal()+1));
-				
+		values.add(t.getTematica().getId().toString());
+		
 		return CRUD.insertOrUpdate("atracciones", columnas, tipos, values);
 	}
 

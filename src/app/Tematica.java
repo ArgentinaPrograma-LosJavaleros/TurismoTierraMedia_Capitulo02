@@ -10,6 +10,10 @@ public class Tematica {
 	private Integer id;
 	private String nombre;
 
+	public Tematica(Integer id) {
+		this.setId(id);
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -23,10 +27,6 @@ public class Tematica {
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	private Tematica(String nombre) {
 		this.nombre = nombre;
 	}
 
