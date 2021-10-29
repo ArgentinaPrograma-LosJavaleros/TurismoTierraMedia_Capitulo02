@@ -1,42 +1,36 @@
 package model;
 
-import app.Tematica;
-import app.Ticket;
-
 public class Usuario implements Comparable<Usuario>{
 
-
-	private Integer idUsuario;
-	private String nombreUsuario;
+	private Integer id;
+	private String nombre;
 	private Integer cantidadMonedas;
 	private Double tiempoDisponible;
-	private Tematica preferenciaUsuario;
-	
-
+	private Tematica preferencia;
 	
 	// Constructores
-	public Usuario(Integer idUsuario,String nombreUsuario, Integer cantidadMonedas, Double tiempoDisponible,
-			Tematica preferenciaUsuario) {
-		setIdUsuario(idUsuario);
-		setNombreUsuario(nombreUsuario);
+	//--------------------------------------------------------------------------
+	public Usuario(Integer id,String nombre, Integer cantidadMonedas, Double tiempoDisponible,
+			Tematica preferencia) {
+		setId(id);
+		setNombre(nombre);
 		setCantidadMonedas(cantidadMonedas);
 		setTiempoDisponible(tiempoDisponible);
-		setPreferenciaUsuario(preferenciaUsuario);
+		setPreferencia(preferencia);
 	}
 	
-	public Usuario(String nombreUsuario) {
-		this(0,nombreUsuario, null, null, null);
+	public Usuario(String nombre) {
+		this(0, nombre, null, null, null);
 	}
 	
 	// Setters
 	//--------------------------------------------------------------------------
-	
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public void setCantidadMonedas(Integer cantidadMonedas) {
@@ -47,22 +41,18 @@ public class Usuario implements Comparable<Usuario>{
 		this.tiempoDisponible = tiempoDisponible;
 	}
 	
-	public void setPreferenciaUsuario(Tematica preferenciaUsuario) {
-		this.preferenciaUsuario = preferenciaUsuario;
+	public void setPreferencia(Tematica preferencia) {
+		this.preferencia = preferencia;
 	}
-	
-		
-	//--------------------------------------------------------------------------
 	
 	// Getters
 	//--------------------------------------------------------------------------
-		
-	public Integer getIdUsuario() {
-		return this.idUsuario;
+	public Integer getId() {
+		return this.id;
 	}
 	
 	public String getNombre() {
-		return this.nombreUsuario;
+		return this.nombre;
 	}
 	
 	public Double getTiempoDisponible() {
@@ -73,11 +63,12 @@ public class Usuario implements Comparable<Usuario>{
 		return this.cantidadMonedas;
 	}
 	
-	public Tematica getPreferenciaUsuario() {
-		return this.preferenciaUsuario;
+	public Tematica getPreferencia() {
+		return this.preferencia;
 	}
+	
+	// Métodos
 	//--------------------------------------------------------------------------
-
 	@Override
 	public String toString() {
 		System.out.printf("| Nombre = %-12s"
@@ -87,15 +78,15 @@ public class Usuario implements Comparable<Usuario>{
 				        getNombre(), 
 				        getCantidadMonedas(), 
 				        getTiempoDisponible(), 
-				        getPreferenciaUsuario());
+				        getPreferencia().getNombre());
 		return "";
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((nombreUsuario == null) ? 0 : nombreUsuario.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
 
@@ -108,10 +99,10 @@ public class Usuario implements Comparable<Usuario>{
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (nombreUsuario == null) {
-			if (other.nombreUsuario != null)
+		if (nombre == null) {
+			if (other.nombre != null)
 				return false;
-		} else if (!nombreUsuario.toLowerCase().equals(other.nombreUsuario.toLowerCase()))
+		} else if (!nombre.toLowerCase().equals(other.nombre.toLowerCase()))
 			return false;
 		return true;
 	}

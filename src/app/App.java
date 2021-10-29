@@ -49,16 +49,17 @@ public class App {
 		UsuarioController user = new UsuarioController();
 		AtraccionController atraccion = new AtraccionController();
 		
+		
 		System.out.println("Cantidad de Usuarios= " + user.countAll());
 		
 		
 		for (Usuario u : user.findAll()) {
 		System.out.println(u);
 		}
-		
-		//System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, Tematica.PAISAJE )));
-		//System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, Tematica.EXTREMO )));
-		//System.out.println(user.update(new Usuario(1, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION)));
+//		
+//		System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, 2)));
+//		System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, 4)));
+//		System.out.println(user.update(new Usuario(1, "Chiruzi", 65, 4.0, 3)));
 		
 		//System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
 		//System.out.println(user.insert(new Usuario(null, "Chiruzi2", 65, 4.0, Tematica.DEGUSTACION )));

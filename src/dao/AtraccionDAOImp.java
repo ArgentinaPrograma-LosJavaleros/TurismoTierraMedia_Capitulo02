@@ -6,24 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.NoExisteTematicaException;
-import app.Tematica;
 import model.Atraccion;
 
 public class AtraccionDAOImp implements AtraccionDAO {
+	
+	TematicaDAOImp tematica = new TematicaDAOImp();
 
 	@Override
 	 public List<Atraccion> findAll()  throws SQLException, NoExisteTematicaException{
 		
 		List<Atraccion> listaDeAtraccions = new ArrayList<Atraccion>();
 		
-		ResultSet s= CRUD.select("atracciones", "*");
-		while (s.next())
-		listaDeAtraccions.add(new Atraccion(s.getInt("id_Atraccion"), 
-										s.getString("nombre"),
-										s.getInt("cupos"),
-										s.getDouble("tiempo"),
-										s.getInt("costo"),
-										new Tematica(s.getInt("id_tematica"))));		
+		ResultSet rs = CRUD.select("atracciones", "*", "");
+		while (rs.next())
+		listaDeAtraccions.add(new Atraccion(rs.getInt("id_Atraccion"), 
+										rs.getString("nombre"),
+										rs.getInt("cupos"),
+										rs.getDouble("tiempo"),
+										rs.getInt("costo"),
+										tematica.findById(rs.getInt("id_tematica"))));			
 		
 		return listaDeAtraccions;
 	}
@@ -32,9 +33,9 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	public int countAll() throws SQLException {
 		Integer contar=0; 
 				
-		ResultSet s= CRUD.select("atracciones", "count(*)");
+		ResultSet rs= CRUD.select("atracciones", "count(*)", "");
 		
-		contar=s.getInt(1);
+		contar=rs.getInt(1);
 		
 		return contar;
 	}
@@ -106,6 +107,26 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	@Override
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
 		return CRUD.delete("atracciones", campo, tipo, valor);
+	}
+
+	@Override
+	public Atraccion findBy(String campo, String valor, String operador) throws SQLException {
+		String condicion = campo + " " + operador + " " + valor;
+		Atraccion atraccion = new Atraccion("No existe");
+		ResultSet rs = CRUD.select("atracciones", "*", condicion);
+		if(rs.next()) {
+			atraccion.setId(rs.getInt("id_atraccion"));
+			atraccion.setNombre(rs.getString("nombre"));
+			atraccion.setCosto(rs.getInt("monedas"));
+			atraccion.setTiempo(rs.getDouble("tiempo"));
+			atraccion.setTematica(tematica.findById(rs.getInt("id_tematica")));		
+		}
+		return atraccion;
+	}
+
+	@Override
+	public Atraccion findById(int id) throws SQLException {
+		return this.findBy("id_atraccion", String.valueOf(id), "=");
 	}
 
 }

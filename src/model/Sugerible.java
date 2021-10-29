@@ -1,7 +1,6 @@
 package model;
 
 import app.Sistema;
-import app.Tematica;
 
 public abstract class Sugerible implements Comparable<Sugerible> {
 	
@@ -36,19 +35,19 @@ public abstract class Sugerible implements Comparable<Sugerible> {
 		this.id = id;
 	}
 
-	protected void setNombre(String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	protected void setCosto(Integer costo) {
+	public void setCosto(Integer costo) {
 		this.costo = costo;
 	}
 
-	protected void setTiempo(Double tiempo) {
+	public void setTiempo(Double tiempo) {
 		this.tiempo = tiempo;
 	}
 
-	protected void setTematica(Tematica tematica) {
+	public void setTematica(Tematica tematica) {
 		this.tematica = tematica;
 	}
 	

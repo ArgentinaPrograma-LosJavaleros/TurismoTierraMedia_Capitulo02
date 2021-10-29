@@ -1,17 +1,24 @@
-package app;
+package model;
 
 public class Tematica {
+	
 //	AVENTURA("Aventura"), 
 //	PAISAJE("Paisaje"), 
 //	DEGUSTACION("Desgutación"), 
 //	EXTREMO("Extremo"),
 //	ENTRETENIMIENTO("Entretenimiento"),
 //	CARRERA("Carrera"); 
+	
 	private Integer id;
 	private String nombre;
+	
+	public Tematica(Integer id, String nombre) {
+		this.id = id;
+		this.nombre = nombre;
+	}
 
-	public Tematica(Integer id) {
-		this.setId(id);
+	public Tematica(String nombre) {
+		this(0, nombre);
 	}
 	
 	public Integer getId() {

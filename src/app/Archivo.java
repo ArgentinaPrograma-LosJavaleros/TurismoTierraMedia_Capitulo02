@@ -5,25 +5,30 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import dao.TematicaDAOImp;
 import model.Atraccion;
 import model.PromoAbsoluta;
 import model.PromoAxB;
 import model.PromoPorcentual;
 import model.Promocion;
+import model.Tematica;
+import model.Ticket;
+import model.TipoPromocion;
 import model.Usuario;
 
 public class Archivo {
 
-	// Convierte en string la dirección de la carpeta "Archivos" en donde se está
-	// ejecutando el código.
+	private static TematicaDAOImp tematica = new TematicaDAOImp();
+	
 	private static final String DIRECCION_PRINCIPAL = System.getProperty("user.dir");
 	private static final String DIRECCION_ARCHIVO = DIRECCION_PRINCIPAL  + "\\archivos\\";
 
-	public static ArrayList<Usuario> cargarUsuarios() {
+	public static ArrayList<Usuario> cargarUsuarios() throws NumberFormatException, SQLException {
 
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
@@ -48,8 +53,8 @@ public class Archivo {
 
 				// Añade al usuario al arraylist de usuarios con su nombre, monedas, tiempo y
 				// temática preferida.
-				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, new Tematica(Integer.valueOf(valores[3]))));
-
+				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, tematica.findById(Integer.parseInt(valores[3]))));
+				//new Tematica(Integer.valueOf(valores[3]))
 			}
 
 		} catch (FileNotFoundException e) {
@@ -61,7 +66,7 @@ public class Archivo {
 		return usuarios;
 	}
 
-	public static ArrayList<Atraccion> cargarAtracciones() {
+	public static ArrayList<Atraccion> cargarAtracciones() throws NumberFormatException, SQLException {
 
 		ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 
@@ -74,20 +79,14 @@ public class Archivo {
 			while (sc.hasNext()) {
 
 				String line = sc.nextLine();
-
-				// Crea una array con cada palabra separada por un espacio.
 				String valores[] = line.split(" ");
-
-				// Reemplaza el guión bajo en el nombre del usuario por un espacio.
 				valores[0] = valores[0].replace('_', ' ');
 
 				int costo = Integer.parseInt(valores[1]);
 				double tiempo = Double.parseDouble(valores[2]);
 				int cupos = Integer.parseInt(valores[3]);
 
-				// Añade la atracción al arraylist con su nombre, costo, tiempo, cupo y
-				// temática.
-				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos, new Tematica(Integer.valueOf(valores[3]))));
+				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos, tematica.findById(Integer.parseInt(valores[3]))));
 
 			}
 
@@ -113,33 +112,21 @@ public class Archivo {
 			while (sc.hasNext()) {
 
 				String line = sc.nextLine();
-
-				// Crea una array con cada palabra separad por un espacio.
 				String valores[] = line.split(" ");
-
-				// Reemplaza el guión bajo en el nombre de la promoción por un espacio.
 				valores[0] = valores[0].replace('_', ' ');
 
-				// Revisa que las promociones sean válidas.
 				TipoPromocion promo = TipoPromocion.toPromocion(valores[1]);
-
 				ArrayList<Atraccion> atraccionesPromocion = new ArrayList<Atraccion>();
 
-				// Si existen, añade las dos atracciones de la promoción al arraylist,
-				// reemplazando el guión bajo con un espacio.
 				atraccionesPromocion.add(getAtraccion(valores[3].replace('_', ' ')));
 				atraccionesPromocion.add(getAtraccion(valores[4].replace('_', ' ')));
 
-				// Las siguientes condicionales crean una promoción según lo que lea del
-				// archivo.
 				if (promo.equals(TipoPromocion.ABSOLUTA)) {
-					// TODO Añadir excepción por si parseInt retorna null.
 					int beneficio = Integer.parseInt(valores[2]);
 					promociones.add(new PromoAbsoluta(0,valores[0], beneficio, atraccionesPromocion));
 				}
 
 				if (promo.equals(TipoPromocion.PORCENTUAL)) {
-					// TODO Añadir excepción por si parseDouble retorna null.
 					double porcentaje = Double.parseDouble(valores[2]);
 					promociones.add(new PromoPorcentual(0,valores[0], porcentaje, atraccionesPromocion));
 				}

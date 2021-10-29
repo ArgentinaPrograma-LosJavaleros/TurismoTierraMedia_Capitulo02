@@ -1,7 +1,5 @@
 package model;
 
-import app.Tematica;
-
 public class Atraccion extends Sugerible {
 
 	private Integer cupoUsuarios;
@@ -14,6 +12,10 @@ public class Atraccion extends Sugerible {
 		super.setTiempo(tiempoAtraccion);
 		super.setTematica(tematicaAtraccion);
 		setCupoUsuarios(cupoUsuarios);
+	}
+
+	public Atraccion(String nombreAtraccion) {
+		this(0, nombreAtraccion, null, null, null, null);
 	}
 
 	public void setCupoUsuarios(Integer cupoUsuarios) {

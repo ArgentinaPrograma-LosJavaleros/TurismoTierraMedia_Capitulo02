@@ -1,15 +1,14 @@
 package model;
 
 import java.util.ArrayList;
-
-import app.TipoPromocion;
  
 public class PromoAxB extends Promocion {
 
 	private Atraccion atraccionGratis;
 
-	public PromoAxB(Integer idPromocion, String nombrePromocion, Atraccion atraccionGratis, ArrayList<Atraccion> atracciones) {
-		super(idPromocion, nombrePromocion, TipoPromocion.AXB, atracciones);
+	public PromoAxB(Integer idPromocion, String nombrePromocion, Atraccion atraccionGratis, 
+					ArrayList<Atraccion> atracciones, TipoPromocion tipoPromo) {
+		super(idPromocion, nombrePromocion, tipoPromo, atracciones);
 		this.setAtraccionGratis(atraccionGratis);
 		super.tiempo += this.atraccionGratis.getTiempo();
 	}

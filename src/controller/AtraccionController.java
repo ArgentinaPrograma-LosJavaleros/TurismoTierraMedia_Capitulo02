@@ -6,7 +6,6 @@ import java.util.List;
 import app.NoExisteTematicaException;
 import dao.AtraccionDAOImp;
 import model.Atraccion;
-import model.Usuario;
 
 public class AtraccionController extends AtraccionDAOImp {
 	@Override
@@ -38,4 +37,15 @@ public class AtraccionController extends AtraccionDAOImp {
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
 		return super.deleteBy(campo, tipo, valor);
 	}
+	
+	@Override
+	public Atraccion findBy(String campo, String valor, String operador) throws SQLException {
+		return super.findBy(campo, valor, operador);
+	}
+
+	@Override
+	public Atraccion findById(int id) throws SQLException {
+		return super.findById(id);
+	}
+	
 }

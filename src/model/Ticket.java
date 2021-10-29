@@ -1,17 +1,21 @@
-package app;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ticket {
+import app.Sistema;
 
+public class Ticket {
+	
+	private Integer id;
 	private String comprador;
 	private Integer monedasGastadas;
 	private Double tiempoGastado;
 	private List<String> atraccionesReservadas, promocionesReservadas;
 
-	public Ticket(String comprador, Integer monedasGastadas, Double tiempoGastado, List<String> atraccionesReservadas,
+	public Ticket(Integer id, String comprador, Integer monedasGastadas, Double tiempoGastado, List<String> atraccionesReservadas,
 			List<String> promocionesReservadas) {
+		setId(id);
 		setComprador(comprador);
 		setMonedasGastadas(monedasGastadas);
 		setTiempoGastado(tiempoGastado);
@@ -20,11 +24,15 @@ public class Ticket {
 	}
 
 	public Ticket() {
-		this(Sistema.getUsuarioActual().getNombre(), 0, 0.0, new ArrayList<String>(), new ArrayList<String>());
+		this(0, Sistema.getUsuarioActual().getNombre(), 0, 0.0, new ArrayList<String>(), new ArrayList<String>());
 	}
 
 	// Setters
 	// --------------------------------------------------------------------------
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public void setComprador(String comprador) {
 		this.comprador = comprador;
 	}
@@ -56,6 +64,10 @@ public class Ticket {
 
 	// Getters
 	// --------------------------------------------------------------------------
+	public Integer getId() {
+		return id;
+	}
+	
 	public String getComprador() {
 		return comprador;
 	}

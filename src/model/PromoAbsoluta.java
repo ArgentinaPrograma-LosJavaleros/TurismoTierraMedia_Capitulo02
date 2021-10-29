@@ -2,13 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
-import app.TipoPromocion;
-
 public class PromoAbsoluta extends Promocion {
-
+	
 	// Constructor
-	public PromoAbsoluta(Integer idPromocion, String nombrePromocion, Integer costoPromocion, ArrayList<Atraccion> atracciones) {
-		super(idPromocion, nombrePromocion, TipoPromocion.ABSOLUTA, atracciones);
+	public PromoAbsoluta(Integer idPromocion, String nombrePromocion, Integer costoPromocion, 
+						 ArrayList<Atraccion> atracciones, TipoPromocion tipoPromo) {
+		super(idPromocion, nombrePromocion, tipoPromo, atracciones);
 		super.setCosto(costoPromocion);
 	}
 	

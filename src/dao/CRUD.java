@@ -10,13 +10,21 @@ import jdbc.ConnectionProvider;
 
 public class CRUD {
 
-	public static ResultSet select(String tabla, String campos) throws SQLException {
+	public static ResultSet select(String tabla, String campos, String condicion) throws SQLException {	
 		
-		Connection conex = ConnectionProvider.getConnection();
-		PreparedStatement datos = conex.prepareStatement("SELECT " + campos + " FROM " + tabla);
+		String query = "SELECT " + campos + " FROM " + tabla;
 		
+		if(!condicion.equals(""))
+			query += " WHERE " + condicion;
+		
+		Connection connection = ConnectionProvider.getConnection();
+		PreparedStatement datos = connection.prepareStatement(query);
 		return datos.executeQuery();
+		
 	}
+	
+	
+	
 	
 	public static int insertOrUpdate(String tabla, List<String> columna, List<String> tipo, List<String> valor) throws SQLException {
 		
@@ -49,8 +57,8 @@ public class CRUD {
 			query += rows.substring(0, rows.length()-2) + ") VALUES (" + values.substring(0, values.length()-2) + ")"; 			
 		}
 		
-		Connection conex = ConnectionProvider.getConnection();
-		PreparedStatement datos = conex.prepareStatement(query);
+		Connection connection = ConnectionProvider.getConnection();
+		PreparedStatement datos = connection.prepareStatement(query);
 		
 		for (int i = 0; i < columna.size(); i++) {
 			
@@ -71,8 +79,8 @@ public class CRUD {
 		
 		String query = "DELETE FROM " + tabla + " WHERE " + columna + " = ?";
 		
-		Connection conex = ConnectionProvider.getConnection();
-		PreparedStatement datos = conex.prepareStatement(query);
+		Connection connection = ConnectionProvider.getConnection();
+		PreparedStatement datos = connection.prepareStatement(query);
 		
 		if (tipo.toLowerCase().equals("int"))
 			datos.setInt(1, Integer.parseInt(valor));

@@ -2,16 +2,15 @@ package model;
 
 import java.util.ArrayList;
 
-import app.TipoPromocion;
-
 public class PromoPorcentual extends Promocion {
 
 	private Double porciento;
 	private static final String PORCENTAJE_ERRONEO = "El porcentaje "
 			+ "Ingresado NO ES VÁLIDO, debe ser escrito en el siguiente " + "formato > 0.XX";
 
-	public PromoPorcentual(Integer idPromocion, String nombrePromocion, Double porciento, ArrayList<Atraccion> atracciones) {
-		super(idPromocion, nombrePromocion, TipoPromocion.PORCENTUAL, atracciones);
+	public PromoPorcentual(Integer idPromocion, String nombrePromocion, Double porciento, 
+						   ArrayList<Atraccion> atracciones, TipoPromocion tipoPromo) {
+		super(idPromocion, nombrePromocion, tipoPromo, atracciones);
 		this.setPorciento(porciento);
 		super.costo = (int) Math.ceil(super.getCosto() - (super.getCosto() * this.getPorciento()));
 	}

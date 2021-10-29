@@ -7,6 +7,8 @@ import model.Atraccion;
 import model.PromoAxB;
 import model.Promocion;
 import model.Sugerible;
+import model.Tematica;
+import model.Ticket;
 import model.Usuario;
 
 public class Sistema {
@@ -70,7 +72,7 @@ public class Sistema {
 
 		Ticket ticket = new Ticket();
 
-		Tematica tematica = u.getPreferenciaUsuario();
+		Tematica tematica = u.getPreferencia();
 		
 		for (Promocion p : Sistema.getPromociones()) {
 			if (verificarSugerible(p, ticket)) {

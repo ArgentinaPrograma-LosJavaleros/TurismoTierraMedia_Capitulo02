@@ -6,23 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.NoExisteTematicaException;
-import app.Tematica;
 import model.Usuario;
 
 public class UsuarioDAOImp implements UsuarioDAO {
+	
+	TematicaDAOImp tematica = new TematicaDAOImp();
 
 	@Override
 	 public List<Usuario> findAll()  throws SQLException, NoExisteTematicaException{
 		
 		List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 		
-		ResultSet s = CRUD.select("usuarios", "*");
-		while (s.next())
-		listaDeUsuarios.add(new Usuario(s.getInt("id_usuario"), 
-										s.getString("nombre"), 
-										s.getInt("monedas"),
-										s.getDouble("tiempo"),
-										new Tematica(s.getInt("id_tematica"))));		
+		ResultSet rs = CRUD.select("usuarios", "*", "");
+		while (rs.next())
+		listaDeUsuarios.add(new Usuario(rs.getInt("id_usuario"), 
+										rs.getString("nombre"), 
+										rs.getInt("monedas"),
+										rs.getDouble("tiempo"),
+										tematica.findById(rs.getInt("id_tematica"))));		
 		
 		return listaDeUsuarios;
 	}
@@ -31,9 +32,9 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	public int countAll() throws SQLException {
 		Integer contar = 0; 
 				
-		ResultSet s = CRUD.select("usuarios", "count(*)");
+		ResultSet rs = CRUD.select("usuarios", "count(*)", "");
 		
-		contar = s.getInt(1);
+		contar = rs.getInt(1);
 		
 		return contar;
 	}
@@ -58,7 +59,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getNombre());
 		values.add(t.getCantidadMonedas().toString());
 		values.add(t.getTiempoDisponible().toString());
-		values.add(t.getPreferenciaUsuario().getId().toString());
+		values.add(t.getPreferencia().getId().toString());
 				
 		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}
@@ -82,18 +83,18 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		tipos.add("Double");
 		tipos.add("Int");
 		
-		values.add(t.getIdUsuario().toString());
+		values.add(t.getId().toString());
 		values.add(t.getNombre());
 		values.add(t.getCantidadMonedas().toString());
 		values.add(t.getTiempoDisponible().toString());
-		values.add(t.getPreferenciaUsuario().getId().toString());
+		values.add(t.getPreferencia().getId().toString());
 				
 		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
 	}
 
 	@Override
 	public int delete(Usuario t) throws SQLException {
-		return CRUD.delete("usuarios", "id_usuario", t.getIdUsuario().toString(), "int");
+		return CRUD.delete("usuarios", "id_usuario", t.getId().toString(), "int");
 	}
 
 	@Override
@@ -101,4 +102,23 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		return CRUD.delete("usuarios", campo, tipo, valor);
 	}
 
+	@Override
+	public Usuario findBy(String campo, String valor, String operador) throws SQLException {
+		String condicion = campo + " " + operador + " " + valor;
+		Usuario usuario = new Usuario("No existe");
+		ResultSet rs = CRUD.select("usuarios", "*", condicion);
+		if(rs.next()) {
+			usuario.setId(rs.getInt("id_usuario"));
+			usuario.setNombre(rs.getString("nombre"));
+			usuario.setCantidadMonedas(rs.getInt("monedas"));
+			usuario.setTiempoDisponible(rs.getDouble("tiempo"));
+			usuario.setPreferencia(tematica.findById(rs.getInt("id_tematica")));
+		}
+		return usuario;
+	}
+
+	@Override
+	public Usuario findById(int id) throws SQLException {
+		return this.findBy("id_usuario", String.valueOf(id), "=");
+	}
 }
