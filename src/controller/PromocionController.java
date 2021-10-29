@@ -37,4 +37,14 @@ public class PromocionController extends PromocionDAOImp {
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
 		return super.deleteBy(campo, tipo, valor);
 	}
+	
+	@Override
+	public Promocion findBy(String campo, String operador, String valor) throws SQLException {
+		return super.findBy(campo, valor, operador);
+	}
+
+	@Override
+	public Promocion findById(int id) throws SQLException {
+		return super.findById(id);
+	}
 }

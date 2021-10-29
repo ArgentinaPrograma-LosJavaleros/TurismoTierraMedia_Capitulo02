@@ -36,10 +36,7 @@ public class Tematica {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	// Valida que las temáticas en el archivo concuerden con las de este enum.
-	// Tira un error si una temática en el archivo no corresponde con las del enum.
-			
+	
 	@Override
 	public String toString() {
 		return this.nombre;

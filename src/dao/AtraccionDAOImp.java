@@ -110,14 +110,14 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	}
 
 	@Override
-	public Atraccion findBy(String campo, String valor, String operador) throws SQLException {
+	public Atraccion findBy(String campo, String operador, String valor) throws SQLException {
 		String condicion = campo + " " + operador + " " + valor;
 		Atraccion atraccion = new Atraccion("No existe");
 		ResultSet rs = CRUD.select("atracciones", "*", condicion);
 		if(rs.next()) {
 			atraccion.setId(rs.getInt("id_atraccion"));
 			atraccion.setNombre(rs.getString("nombre"));
-			atraccion.setCosto(rs.getInt("monedas"));
+			atraccion.setCosto(rs.getInt("costo"));
 			atraccion.setTiempo(rs.getDouble("tiempo"));
 			atraccion.setTematica(tematica.findById(rs.getInt("id_tematica")));		
 		}
@@ -126,7 +126,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 
 	@Override
 	public Atraccion findById(int id) throws SQLException {
-		return this.findBy("id_atraccion", String.valueOf(id), "=");
+		return this.findBy("id_atraccion", "=", String.valueOf(id));
 	}
 
 }

@@ -39,7 +39,7 @@ public class TematicaController extends TematicaDAOImp {
 	}
 	
 	@Override
-	public Tematica findBy(String campo, String valor, String operador) throws SQLException {
+	public Tematica findBy(String campo, String operador, String valor) throws SQLException {
 		return super.findBy(campo, valor, operador);
 	}
 

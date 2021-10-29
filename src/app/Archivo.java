@@ -16,7 +16,6 @@ import model.PromoAbsoluta;
 import model.PromoAxB;
 import model.PromoPorcentual;
 import model.Promocion;
-import model.Tematica;
 import model.Ticket;
 import model.TipoPromocion;
 import model.Usuario;
@@ -53,7 +52,8 @@ public class Archivo {
 
 				// Añade al usuario al arraylist de usuarios con su nombre, monedas, tiempo y
 				// temática preferida.
-				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, tematica.findById(Integer.parseInt(valores[3]))));
+				usuarios.add(new Usuario(0,valores[0], monedas, tiempo, tematica.
+						findBy("nombre", "=", "\"" + (valores[3]) + "\"")));
 				//new Tematica(Integer.valueOf(valores[3]))
 			}
 
@@ -115,31 +115,33 @@ public class Archivo {
 				String valores[] = line.split(" ");
 				valores[0] = valores[0].replace('_', ' ');
 
-				TipoPromocion promo = TipoPromocion.toPromocion(valores[1]);
+				TipoPromocion promo = new TipoPromocion(valores[1]);
 				ArrayList<Atraccion> atraccionesPromocion = new ArrayList<Atraccion>();
 
 				atraccionesPromocion.add(getAtraccion(valores[3].replace('_', ' ')));
 				atraccionesPromocion.add(getAtraccion(valores[4].replace('_', ' ')));
-
-				if (promo.equals(TipoPromocion.ABSOLUTA)) {
+				
+				if (promo.getNombre().toLowerCase().equals("absoluta")) {
+					promo.setId(1);
 					int beneficio = Integer.parseInt(valores[2]);
-					promociones.add(new PromoAbsoluta(0,valores[0], beneficio, atraccionesPromocion));
+					promociones.add(new PromoAbsoluta(0, valores[0], beneficio, atraccionesPromocion, promo));
 				}
-
-				if (promo.equals(TipoPromocion.PORCENTUAL)) {
-					double porcentaje = Double.parseDouble(valores[2]);
-					promociones.add(new PromoPorcentual(0,valores[0], porcentaje, atraccionesPromocion));
-				}
-
-				if (promo.equals(TipoPromocion.AXB)) {
+				
+				if (promo.getNombre().toLowerCase().equals("axb")) {
+					promo.setId(2);
 					Atraccion atraccionGratis = getAtraccion(valores[2]);
-					promociones.add(new PromoAxB(0,valores[0], atraccionGratis, atraccionesPromocion));
+					promociones.add(new PromoAxB(0,valores[0], atraccionGratis, atraccionesPromocion, promo));
 				}
+
+				if (promo.getNombre().toLowerCase().equals("porcentual")) {
+					promo.setId(3);
+					double porcentaje = Double.parseDouble(valores[2]);
+					promociones.add(new PromoPorcentual(0,valores[0], porcentaje, atraccionesPromocion, promo));
+				}
+
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (NoExistePromocionException e) {
 			e.printStackTrace();
 		} catch (NoExisteAtraccionException e) {
 			e.printStackTrace();
@@ -151,31 +153,20 @@ public class Archivo {
 	}
 
 	private static Scanner iniciarScanner(String nombre) throws FileNotFoundException {
-		// Abre el archivo indicado en la carpeta Archivos de donde se ejecuta el
-		// código.
 		Scanner sc = new Scanner(new File(DIRECCION_ARCHIVO + nombre));
-
-		// Setea el lenguaje con el cual se ejecuta el archivo.
 		sc.useLocale(Locale.ENGLISH);
-
 		return sc;
 	}
 
-	private static Atraccion getAtraccion(String nombre)
-			throws NoExisteAtraccionException {
-	
-		// Compara si la atracción ingresada existe en la lista de atracciones.
+	private static Atraccion getAtraccion(String nombre) throws NoExisteAtraccionException {
 		for (Atraccion a : Sistema.getAtracciones()) {
 			String s = (a).getNombre();
 			if (s.toLowerCase().equals(nombre.replace("_", " ").toLowerCase()))
 				return a;
 		}
-
 		throw new NoExisteAtraccionException("NO existe la atraccion \"" + nombre + "\"");
 	}
 
-	// Genera el archivo de tickets. Si noSobrescribir = false entonces limpia el
-	// archivo y empiezo desde el principio.
 	public static Ticket generarTicket(Ticket ticket, boolean noSobrescribir)
 			throws IOException, FileNotFoundException {
 		PrintWriter pw = new PrintWriter(new FileWriter(DIRECCION_ARCHIVO + "tickets.txt", noSobrescribir));
@@ -210,34 +201,35 @@ public class Archivo {
 		return ticket;
 	}
 	
-	public static void parseCSV(String path) {
-		Scanner sc = null;
-		PrintWriter pw = null;
-		try {
-
-			sc = iniciarScanner(path);
-			pw = new PrintWriter(new FileWriter(DIRECCION_PRINCIPAL + "\\archivoscsv\\" + path.replace(".txt", ".csv"), false));
-
-			while (sc.hasNext()) {
-
-				String line = sc.nextLine();
-				
-				
-				line = line.replace(' ', ',')
-						   .replace('_', ' ');
-				
-				pw.println(line);
-				
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			sc.close();
-			pw.close();
-		}
-
-	}
+//	public static void parseCSV(String path) {
+//		Scanner sc = null;
+//		PrintWriter pw = null;
+//		try {
+//
+//			sc = iniciarScanner(path);
+//			pw = new PrintWriter(new FileWriter(DIRECCION_PRINCIPAL + "\\archivoscsv\\" + path.replace(".txt", ".csv"), false));
+//
+//			while (sc.hasNext()) {
+//
+//				String line = sc.nextLine();
+//				
+//				
+//				line = line.replace(' ', ',')
+//						   .replace('_', ' ');
+//				
+//				pw.println(line);
+//				
+//			}
+//
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			sc.close();
+//			pw.close();
+//		}
+//
+//	}
+	
 }

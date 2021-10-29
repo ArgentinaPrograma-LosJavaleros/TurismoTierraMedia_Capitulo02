@@ -103,7 +103,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario findBy(String campo, String valor, String operador) throws SQLException {
+	public Usuario findBy(String campo, String operador, String valor) throws SQLException {
 		String condicion = campo + " " + operador + " " + valor;
 		Usuario usuario = new Usuario("No existe");
 		ResultSet rs = CRUD.select("usuarios", "*", condicion);
@@ -119,6 +119,6 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public Usuario findById(int id) throws SQLException {
-		return this.findBy("id_usuario", String.valueOf(id), "=");
+		return this.findBy("id_usuario", "=", String.valueOf(id));
 	}
 }

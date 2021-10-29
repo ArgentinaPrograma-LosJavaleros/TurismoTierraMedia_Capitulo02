@@ -2,21 +2,23 @@ package app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import controller.AtraccionController;
+import controller.PromocionController;
+import controller.TematicaController;
 import controller.UsuarioController;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
+import model.Promocion;
+import model.Tematica;
 import model.Usuario;
 
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SQLException, NoExisteTematicaException {
-/*
+		
+		/*
 		boolean existe = false;
 		Scanner input = new Scanner(System.in);
 
@@ -44,35 +46,55 @@ public class App {
 		System.out.println("");
 		Sistema.cargarOfertas();
 
-		input.close();*/
+		input.close();
+		*/
 		
 		UsuarioController user = new UsuarioController();
 		AtraccionController atraccion = new AtraccionController();
+		PromocionController promocion = new PromocionController();
+		TematicaController tematica = new TematicaController();
 		
+//		System.out.println(tematica.insert(new Tematica("Carrera")));
+			
+//		System.out.println("Cantidad de Usuarios = " + user.countAll());
 		
-		System.out.println("Cantidad de Usuarios= " + user.countAll());
+//		Sistema.setUsuarios(Archivo.cargarUsuarios());
 		
+//		for (Usuario u: Sistema.getUsuarios())
+//			user.insert(u);
 		
-		for (Usuario u : user.findAll()) {
-		System.out.println(u);
-		}
-//		
+		System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, tematica.findBy("nombre", "=", "\"extremo\""))));
+		
+		System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, tematica.findBy("nombre", "=", "\"degustacion\""))));
+		
+		for (Usuario u : user.findAll())
+			System.out.println(u);
+				
 //		System.out.println(user.insert(new Usuario(null, "Gandalf", 100, 5.0, 2)));
 //		System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, 4)));
 //		System.out.println(user.update(new Usuario(1, "Chiruzi", 65, 4.0, 3)));
-		
-		//System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
-		//System.out.println(user.insert(new Usuario(null, "Chiruzi2", 65, 4.0, Tematica.DEGUSTACION )));
+//		
+//		System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
+//		System.out.println(user.insert(new Usuario(null, "Chiruzi2", 65, 4.0, Tematica.DEGUSTACION )));
 		
 		//System.out.println(user.delete(new Usuario(18, "Chiruzi", 65, 4.0, Tematica.DEGUSTACION )));
 		//System.out.println(user.deleteBy("nombre", "String", "Chiruzi"));
 		
 //		Sistema.setAtracciones(Archivo.cargarAtracciones());
+//		Sistema.setPromociones(Archivo.cargarPromociones());
+		
 //		for (Atraccion a: Sistema.getAtracciones())
 //			atraccion.insert(a);
-//		for (Atraccion a: atraccion.findAll()) {
+//		for (Atraccion a: atraccion.findAll())
 //			System.out.println(a);
+//		int contador = 1;
+//		for (Promocion p: Sistema.getPromociones()) {
+//			p.setId(contador);
+//			promocion.insert(p);
+//			contador++;
 //		}
+//		for (Promocion p: promocion.findAll())
+//			System.out.println(p);
 		
 		ConnectionProvider.closeConnection();
 	}

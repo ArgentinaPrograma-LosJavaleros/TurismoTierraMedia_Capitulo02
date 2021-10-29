@@ -80,7 +80,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 	}
 
 	@Override
-	public TipoPromocion findBy(String campo, String valor, String operador) throws SQLException {
+	public TipoPromocion findBy(String campo, String operador, String valor) throws SQLException {
 		String condicion = campo + " " + operador + " " + valor;
 		TipoPromocion tipoPromocion = new TipoPromocion("No existe");
 		ResultSet rs = CRUD.select("tipo_promociones", "*", condicion);
@@ -93,7 +93,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 
 	@Override
 	public TipoPromocion findById(int id) throws SQLException {
-		return this.findBy("id_tipo_promocion", String.valueOf(id), "=");
+		return this.findBy("id_tipo_promocion", "=", String.valueOf(id));
 	}
 
 }

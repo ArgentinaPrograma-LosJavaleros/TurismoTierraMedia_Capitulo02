@@ -39,7 +39,7 @@ public class UsuarioController extends UsuarioDAOImp {
 	}
 	
 	@Override
-	public Usuario findBy(String campo, String valor, String operador) throws SQLException {
+	public Usuario findBy(String campo, String operador, String valor) throws SQLException {
 		return super.findBy(campo, valor, operador);
 	}
 

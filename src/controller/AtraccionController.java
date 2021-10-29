@@ -39,7 +39,7 @@ public class AtraccionController extends AtraccionDAOImp {
 	}
 	
 	@Override
-	public Atraccion findBy(String campo, String valor, String operador) throws SQLException {
+	public Atraccion findBy(String campo, String operador, String valor) throws SQLException {
 		return super.findBy(campo, valor, operador);
 	}
 

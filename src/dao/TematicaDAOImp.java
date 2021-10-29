@@ -81,7 +81,7 @@ public class TematicaDAOImp implements TematicaDAO {
 	}
 
 	@Override
-	public Tematica findBy(String campo, String valor, String operador) throws SQLException {
+	public Tematica findBy(String campo, String operador, String valor) throws SQLException {
 		String condicion = campo + " " + operador + " " + valor;
 		Tematica tematica = new Tematica("No existe");
 		ResultSet rs = CRUD.select("tematicas", "*", condicion);
@@ -94,7 +94,7 @@ public class TematicaDAOImp implements TematicaDAO {
 
 	@Override
 	public Tematica findById(int id) throws SQLException {
-		return this.findBy("id_tematica", String.valueOf(id), "=");
+		return this.findBy("id_tematica", "=", String.valueOf(id));
 	}
 
 }
