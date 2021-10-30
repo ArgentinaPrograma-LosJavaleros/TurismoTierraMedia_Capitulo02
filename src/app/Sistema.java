@@ -1,8 +1,10 @@
 package app;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import controller.*;
 import model.Atraccion;
 import model.PromoAxB;
 import model.Promocion;
@@ -19,7 +21,7 @@ public class Sistema {
 	private static Usuario usuarioActual;
 	protected static final String RESPUESTA_SI = "SI";
 	private static final String RESPUESTA_NO = "NO";
-
+	
 	// Setters
 	// --------------------------------------------------------------------------
 	public static void setUsuarios(ArrayList<Usuario> _usuarios) {
@@ -172,8 +174,7 @@ public class Sistema {
 			
 			System.out.println("|" + repiteCaracteres("-", 87) + "|");
 		}
-		
-		System.out.println("!" + repiteCaracteres(".", 87) + "!");
+			System.out.println("!" + repiteCaracteres(".", 87) + "!");
 	}
 	
 	public static String repiteCaracteres(String str, Integer cantidad) {
@@ -184,4 +185,24 @@ public class Sistema {
 		return str2;
 	}
 
+	public static void cargarDatos() throws SQLException, NoExisteTematicaException {
+		PromocionController pC = new PromocionController();
+		AtraccionController aC = new AtraccionController();
+		UsuarioController uC = new UsuarioController();
+		setPromociones((ArrayList<Promocion>) pC.findAll());
+		setAtracciones((ArrayList<Atraccion>) aC.findAll());
+		setUsuarios((ArrayList<Usuario>) uC.findAll());
+	}
+	public static void actualizarDatos() throws SQLException, NoExisteTematicaException {
+		PromocionController pC = new PromocionController();
+		AtraccionController aC = new AtraccionController();
+		UsuarioController uC = new UsuarioController();
+		for (Promocion p: getPromociones())
+			pC.update(p);
+		for (Atraccion a: getAtracciones())
+			aC.update(a);
+		for (Usuario u: getUsuarios())
+			uC.update(u);
+		cargarDatos();
+	}
 }
