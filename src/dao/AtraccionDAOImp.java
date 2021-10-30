@@ -65,7 +65,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		values.add(t.getCosto().toString());
 		values.add(t.getTematica().getId().toString());
 				
-		return CRUD.insertOrUpdate("atracciones", columnas, tipos, values);
+		return CRUD.insert("atracciones", columnas, tipos, values);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		values.add(t.getCosto().toString());
 		values.add(t.getTematica().getId().toString());
 		
-		return CRUD.insertOrUpdate("atracciones", columnas, tipos, values);
+		return CRUD.update("atracciones", columnas, tipos, values);
 	}
 
 	@Override

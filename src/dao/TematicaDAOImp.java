@@ -48,7 +48,7 @@ public class TematicaDAOImp implements TematicaDAO {
 		values.add(t.getNombre());
 
 				
-		return CRUD.insertOrUpdate("tematicas", columnas, tipos, values);
+		return CRUD.insert("tematicas", columnas, tipos, values);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class TematicaDAOImp implements TematicaDAO {
 		values.add(t.getId().toString());
 		values.add(t.getNombre());
 				
-		return CRUD.insertOrUpdate("tematicas", columnas, tipos, values);
+		return CRUD.update("tematicas", columnas, tipos, values);
 	}
 
 	@Override

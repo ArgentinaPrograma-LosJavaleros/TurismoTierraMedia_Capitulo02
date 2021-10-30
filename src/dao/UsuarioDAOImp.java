@@ -61,7 +61,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getTiempoDisponible().toString());
 		values.add(t.getPreferencia().getId().toString());
 				
-		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
+		return CRUD.insert("usuarios", columnas, tipos, values);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getTiempoDisponible().toString());
 		values.add(t.getPreferencia().getId().toString());
 				
-		return CRUD.insertOrUpdate("usuarios", columnas, tipos, values);
+		return CRUD.update("usuarios", columnas, tipos, values);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class TicketDAOImp implements TicketDAO {
 
 	@Override
 	public int insert(Ticket t) throws SQLException {
-		
+				
 		List<String> columnas= new ArrayList<String> ();
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
@@ -70,29 +70,140 @@ public class TicketDAOImp implements TicketDAO {
 
 		tipos.add("String");
 		
-		values.add(t.getNombre());
+		//values.add(t.getNombre());
 
+		return insertTickets(t) + insertTickets_Atracciones(t) + insertTicket_Promociones(t);		
+		//return CRUD.insertOrUpdate("tickets", columnas, tipos, values);
+	}
+
+	private int insertTicket_Promociones(Ticket t) throws SQLException {
+		
+		int contador = 0;
+		List<String> columnas = new ArrayList<String> ();
+		List<String> tipos = new ArrayList<String> (); 
+		List<String> values = new ArrayList<String> (); 
+		
+		for (String str : t.getPromocionesReservadas()) {
 				
-		return CRUD.insertOrUpdate("tickets", columnas, tipos, values);
+			columnas.add("id_ticket");
+			columnas.add("id_promocion");
+			
+			tipos.add("Int");
+			tipos.add("Int");
+			
+			values.add(t.getId().toString());
+			values.add(promocion.findBy("nombre", "=", str).getId().toString());
+			contador += CRUD.insert("tickets_promociones", columnas, tipos, values);
+		}
+		return contador;
+	}
+
+	private int insertTickets_Atracciones(Ticket t) throws SQLException {
+
+		int contador = 0;
+		List<String> columnas = new ArrayList<String> ();
+		List<String> tipos = new ArrayList<String> (); 
+		List<String> values = new ArrayList<String> (); 
+		
+		for (String str : t.getAtraccionesReservadas()) {
+				
+			columnas.add("id_ticket");
+			columnas.add("id_atraccion");
+						
+			tipos.add("Int");
+			tipos.add("Int");
+			
+			values.add(t.getId().toString());
+			values.add(atraccion.findBy("nombre", "=", str).getId().toString());
+			contador += CRUD.insert("tickets_atraccion", columnas, tipos, values);
+		}
+		return contador;
+	}
+
+	private int insertTickets(Ticket t) throws SQLException {
+		
+		List<String> columnas = new ArrayList<String> ();
+		List<String> tipos = new ArrayList<String> (); 
+		List<String> values = new ArrayList<String> (); 
+		
+		columnas.add("monedas_gastadas");
+		columnas.add("id_ticket");
+		columnas.add("id_usuario");
+		columnas.add("tiempo_gastado");
+		
+		tipos.add("Int");
+		tipos.add("Int");
+		tipos.add("Int");
+		tipos.add("Double");
+		
+		values.add(t.getMonedasGastadas().toString());
+		values.add(t.getId().toString());
+		values.add(usuario.findBy("nombre", "=", t.getComprador()).getId().toString());
+		values.add(t.getTiempoGastado().toString());
+		return CRUD.insert("tickets_atraccion", columnas, tipos, values);
+				
 	}
 
 	@Override
 	public int update(Ticket t) throws SQLException {
-
-		List<String> columnas= new ArrayList<String> ();
-		List<String> tipos= new ArrayList<String> (); 
-		List<String> values= new ArrayList<String> (); 
 		
-		columnas.add("id_ticket");
-		columnas.add("id_usuario");
-		
-		tipos.add("Int");
-		tipos.add("String");
-		
-		values.add(t.getId().toString());
-		values.add(t.getNombre());
+		int contador = 0;
+		List<String> columnas = new ArrayList<String> ();
+		List<String> tipos = new ArrayList<String> (); 
+		List<String> values = new ArrayList<String> (); 
 				
-		return CRUD.insertOrUpdate("tickets", columnas, tipos, values);
+		for (String str : t.getAtraccionesReservadas()) {
+				
+			columnas.add("id_ticket");
+			columnas.add("id_atraccion");
+						
+			tipos.add("Int");
+			tipos.add("Int");
+			
+			values.add(t.getId().toString());
+			values.add(atraccion.findBy("nombre", "=", str).getId().toString());
+			contador += CRUD.update("tickets_atraccion", columnas, tipos, values);
+		}
+		
+		List<String> columnas2 = new ArrayList<String> ();
+		List<String> tipos2 = new ArrayList<String> (); 
+		List<String> values2 = new ArrayList<String> (); 
+		
+		for (String str : t.getPromocionesReservadas()) {
+				
+			columnas2.add("id_ticket");
+			columnas2.add("id_promocion");
+			
+			tipos2.add("Int");
+			tipos2.add("Int");
+			
+			values2.add(t.getId().toString());
+			values2.add(promocion.findBy("nombre", "=", str).getId().toString());
+			contador += CRUD.update("tickets_promociones", columnas2, tipos2, values2);
+		}
+		
+		List<String> columnas3 = new ArrayList<String> ();
+		List<String> tipos3 = new ArrayList<String> (); 
+		List<String> values3 = new ArrayList<String> (); 
+		
+		columnas3.add("monedas_gastadas");
+		columnas3.add("id_ticket");
+		columnas3.add("id_usuario");
+		columnas3.add("tiempo_gastado");
+		
+		tipos3.add("Int");
+		tipos3.add("Int");
+		tipos3.add("Int");
+		tipos3.add("Double");
+		
+		values3.add(t.getMonedasGastadas().toString());
+		values3.add(t.getId().toString());
+		values3.add(usuario.findBy("nombre", "=", t.getComprador()).getId().toString());
+		values3.add(t.getTiempoGastado().toString());
+		contador += CRUD.update("tickets_atraccion", columnas3, tipos3, values3);
+		return contador;
+		
+		
 	}
 
 	@Override

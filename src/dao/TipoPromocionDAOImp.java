@@ -47,7 +47,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 		values.add(t.getNombre());
 
 				
-		return CRUD.insertOrUpdate("tipo_promociones", columnas, tipos, values);
+		return CRUD.insert("tipo_promociones", columnas, tipos, values);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 		values.add(t.getId().toString());
 		values.add(t.getNombre());
 				
-		return CRUD.insertOrUpdate("tipo_promociones", columnas, tipos, values);
+		return CRUD.update("tipo_promociones", columnas, tipos, values);
 	}
 
 	@Override

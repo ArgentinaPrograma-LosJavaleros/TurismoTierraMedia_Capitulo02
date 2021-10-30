@@ -108,7 +108,7 @@ public class PromocionDAOImp implements PromocionDAO {
 			values3.add(t.getId().toString());
 			values3.add(atraccion1.getId().toString());
 
-			return CRUD.insertOrUpdate("promo_atracciones", columnas3, tipos3, values3);
+			return CRUD.insert("promo_atracciones", columnas3, tipos3, values3);
 		}
 		
 		if(t.getTipoPromocion().getId() == 3) {
@@ -122,7 +122,7 @@ public class PromocionDAOImp implements PromocionDAO {
 			values3.add(((PromoPorcentual)t).getPorciento().toString());
 			values3.add(t.getId().toString());
 			
-			return CRUD.insertOrUpdate("promo_descuento", columnas3, tipos3, values3);
+			return CRUD.insert("promo_descuento", columnas3, tipos3, values3);
 		}
 		
 		return 0;
@@ -167,8 +167,8 @@ public class PromocionDAOImp implements PromocionDAO {
 			values2.add(t.getId().toString());
 			values2.add(atraccion2.getId().toString());
 		
-		return CRUD.insertOrUpdate("promo_atracciones", columnas, tipos, values) 
-	         + CRUD.insertOrUpdate("promo_atracciones", columnas2, tipos2, values2);
+		return CRUD.insert("promo_atracciones", columnas, tipos, values) 
+	         + CRUD.insert("promo_atracciones", columnas2, tipos2, values2);
 	}
 
 	private int insertPromociones(Promocion t) throws SQLException {
@@ -188,12 +188,13 @@ public class PromocionDAOImp implements PromocionDAO {
 		values.add(t.getCosto().toString());
 		values.add(t.getTipoPromocion().getId().toString());
 
-		return CRUD.insertOrUpdate("Promociones", columnas, tipos, values);
+		return CRUD.insert("Promociones", columnas, tipos, values);
 	}
 
 	@Override
 	public int update(Promocion t) throws SQLException {
 
+		int contador = 0;
 		List<String> columnas = new ArrayList <String> ();
 		List<String> tipos = new ArrayList <String> (); 
 		List<String> values = new ArrayList <String> (); 
@@ -234,7 +235,7 @@ public class PromocionDAOImp implements PromocionDAO {
 			values2.add(a.getId().toString());
 			values2.add(String.valueOf(0));
 			
-			System.out.println(CRUD.insertOrUpdate("promo_atracciones", columnas2, tipos2, values2));
+			contador += CRUD.update("promo_atracciones", columnas2, tipos2, values2);
 			
 		}
 		
@@ -252,7 +253,7 @@ public class PromocionDAOImp implements PromocionDAO {
 			values.add(((PromoAxB)t).getAtraccionGratis().getId().toString());
 			values.add(String.valueOf(1));
 			
-			System.out.println(CRUD.insertOrUpdate("promo_atracciones", columnas, tipos, values));
+			contador += CRUD.update("promo_atracciones", columnas, tipos, values);
 		}
 		
 		if(t.getTipoPromocion().getId() == 3) {
@@ -266,21 +267,37 @@ public class PromocionDAOImp implements PromocionDAO {
 			values.add(t.getId().toString());
 			values.add(((PromoPorcentual)t).getPorciento().toString());
 			
-			System.out.println(CRUD.insertOrUpdate("promo_descuento", columnas, tipos, values));
+			contador += CRUD.update("promo_descuento", columnas, tipos, values);
 			
 		}
 		
-		return CRUD.insertOrUpdate("Promociones", columnas1, tipos1, values1);
+		contador += CRUD.update("Promociones", columnas1, tipos1, values1);
+		return contador;
 	}
 
 	@Override
 	public int delete(Promocion t) throws SQLException {
-		return CRUD.delete("Promociones", "id_Promocion", t.getId().toString(), "int");
+		
+		int contador = 0;
+		
+		contador += CRUD.delete("Promo_atracciones", "id_Promocion", "int", t.getId().toString());
+		contador += CRUD.delete("Promo_descuentos", "id_Promocion", "int", t.getId().toString());
+		contador += CRUD.delete("Promociones", "id_Promocion", "int", t.getId().toString());
+		
+		return contador;
 	}
 
 	@Override
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("Promociones", campo, tipo, valor);
+		
+		int contador = 0;
+		
+//		contador += CRUD.delete("Promo_atracciones", "id_Promocion", "int", t.getId().toString());
+//		contador += CRUD.delete("Promo_descuentos", "id_Promocion", "int", t.getId().toString());
+//		contador += CRUD.delete("Promociones", "id_Promocion", "int", t.getId().toString());
+//		campo, tipo, valor
+	
+		return contador;
 	}
 
 	@SuppressWarnings("null")
