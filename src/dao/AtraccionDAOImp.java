@@ -15,18 +15,8 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	@Override
 	 public List<Atraccion> findAll()  throws SQLException, NoExisteTematicaException{
 		
-		List<Atraccion> listaDeAtraccions = new ArrayList<Atraccion>();
 		
-		ResultSet rs = CRUD.select("atracciones", "*", "");
-		while (rs.next())
-		listaDeAtraccions.add(new Atraccion(rs.getInt("id_Atraccion"), 
-										rs.getString("nombre"),
-										rs.getInt("cupos"),
-										rs.getDouble("tiempo"),
-										rs.getInt("costo"),
-										tematica.findById(rs.getInt("id_tematica"))));			
-		
-		return listaDeAtraccions;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -128,6 +118,25 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	@Override
 	public Atraccion findById(int id) throws SQLException {
 		return this.findBy("id_atraccion", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<Atraccion> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<Atraccion> listaDeAtraccions = new ArrayList<Atraccion>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("atracciones", "*", condicion);
+		while (rs.next())
+		listaDeAtraccions.add(new Atraccion(rs.getInt("id_Atraccion"), 
+										rs.getString("nombre"),
+										rs.getInt("cupos"),
+										rs.getDouble("tiempo"),
+										rs.getInt("costo"),
+										tematica.findById(rs.getInt("id_tematica"))));			
+		
+		
+		return listaDeAtraccions;
 	}
 
 }

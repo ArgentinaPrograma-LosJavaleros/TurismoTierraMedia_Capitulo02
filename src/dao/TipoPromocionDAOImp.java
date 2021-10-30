@@ -12,14 +12,8 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 	@Override
 	 public List<TipoPromocion> findAll()  throws SQLException {
 		
-		List<TipoPromocion> listaDetipo_promociones = new ArrayList<TipoPromocion>();
 		
-		ResultSet rs = CRUD.select("tipo_promociones", "*", "");
-		while (rs.next())
-		listaDetipo_promociones.add(new TipoPromocion(rs.getInt("id_tipo_promocion"), 
-										rs.getString("nombre")));	
-		
-		return listaDetipo_promociones;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -94,6 +88,20 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 	@Override
 	public TipoPromocion findById(int id) throws SQLException {
 		return this.findBy("id_tipo_promocion", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<TipoPromocion> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<TipoPromocion> listaDetipo_promociones = new ArrayList<TipoPromocion>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("tipo_promociones", "*", condicion);
+		while (rs.next())
+		listaDetipo_promociones.add(new TipoPromocion(rs.getInt("id_tipo_promocion"), 
+										rs.getString("nombre")));	
+		
+		return listaDetipo_promociones;
 	}
 
 }

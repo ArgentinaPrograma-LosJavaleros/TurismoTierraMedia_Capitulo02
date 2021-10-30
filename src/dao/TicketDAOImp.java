@@ -18,32 +18,8 @@ public class TicketDAOImp implements TicketDAO {
 	@Override
 	 public List<Ticket> findAll()  throws SQLException{
 		
-		List<Ticket> listaDeTickets = new ArrayList<Ticket>();
 		
-		ResultSet rs = CRUD.select("tickets", "*", "");
-		while (rs.next()) {
-			String comprador = usuario.findById(rs.getInt("id_usuario")).getNombre();
-			ResultSet rsAtraccion = CRUD.select("tickets_atracciones", "*", "id_ticket = " + rs.getInt("id_ticket"));	
-			List<String> atracciones = new ArrayList<String>();
-			while(rsAtraccion.next()) {
-				atracciones.add(atraccion.findById(rsAtraccion.getInt("id_atracion")).getNombre());
-			}
-			
-			ResultSet rsPromocion = CRUD.select("tickets_promociones", "*", "id_ticket = " + rs.getInt("id_ticket"));	
-			List<String> promociones = new ArrayList<String>();
-			while(rsPromocion.next()) {
-				promociones.add(promocion.findById(rsPromocion.getInt("id_promocion")).getNombre());
-			}
-			
-			
-			listaDeTickets.add(new Ticket(rs.getInt("id_ticket"), 
-										comprador,
-										rs.getInt("monedas_gastadas"),
-										rs.getDouble("tiempo_gastado"),
-										atracciones,
-										promociones));	
-		}	
-		return listaDeTickets;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -228,6 +204,38 @@ public class TicketDAOImp implements TicketDAO {
 	@Override
 	public Ticket findById(int id) throws SQLException {
 		return this.findBy("id_ticket", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<Ticket> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<Ticket> listaDeTickets = new ArrayList<Ticket>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("tickets", "*", condicion);
+		while (rs.next()) {
+			String comprador = usuario.findById(rs.getInt("id_usuario")).getNombre();
+			ResultSet rsAtraccion = CRUD.select("tickets_atracciones", "*", "id_ticket = " + rs.getInt("id_ticket"));	
+			List<String> atracciones = new ArrayList<String>();
+			while(rsAtraccion.next()) {
+				atracciones.add(atraccion.findById(rsAtraccion.getInt("id_atraccion")).getNombre());
+			}
+			
+			ResultSet rsPromocion = CRUD.select("tickets_promociones", "*", "id_ticket = " + rs.getInt("id_ticket"));	
+			List<String> promociones = new ArrayList<String>();
+			while(rsPromocion.next()) {
+				promociones.add(promocion.findById(rsPromocion.getInt("id_promocion")).getNombre());
+			}
+			
+			
+			listaDeTickets.add(new Ticket(rs.getInt("id_ticket"), 
+										comprador,
+										rs.getInt("monedas_gastadas"),
+										rs.getDouble("tiempo_gastado"),
+										atracciones,
+										promociones));	
+		}	
+		return listaDeTickets;
 	}
 
 }

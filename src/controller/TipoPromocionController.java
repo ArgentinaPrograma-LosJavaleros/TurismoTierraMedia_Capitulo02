@@ -46,4 +46,8 @@ public class TipoPromocionController extends TipoPromocionDAOImp {
 	public TipoPromocion findById(int id) throws SQLException {
 		return super.findById(id);
 	}
+	@Override
+	public List<TipoPromocion> findAllBy(String campo, String operador, String valor)  throws SQLException{
+		return super.findAllBy(campo, operador, valor);
+	}
 }

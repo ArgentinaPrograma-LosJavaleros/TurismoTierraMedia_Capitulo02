@@ -47,4 +47,9 @@ public class TicketController extends TicketDAOImp {
 		return super.findById(id);
 	}
 	
+	@Override
+	public List<Ticket> findAllBy(String campo, String operador, String valor)  throws SQLException{
+		return super.findAllBy(campo, operador, valor);
+	}
+	
 }

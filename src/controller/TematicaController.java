@@ -47,4 +47,9 @@ public class TematicaController extends TematicaDAOImp {
 	public Tematica findById(int id) throws SQLException {
 		return super.findById(id);
 	}
+	
+	@Override
+	public List<Tematica> findAllBy(String campo, String operador, String valor)  throws SQLException{
+		return super.findAllBy(campo, operador, valor);
+	}
 }

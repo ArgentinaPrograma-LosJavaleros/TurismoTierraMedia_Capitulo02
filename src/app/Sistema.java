@@ -17,6 +17,10 @@ import model.Usuario;
 
 public class Sistema {
 
+    private	static PromocionController pC = new PromocionController();
+    private static AtraccionController aC = new AtraccionController();
+    private static TicketController tC = new TicketController();
+    private static UsuarioController uC = new UsuarioController();
 	private static ArrayList<Usuario> usuarios;
 	private static ArrayList<Atraccion> atracciones;
 	private static ArrayList<Promocion> promociones;
@@ -76,7 +80,7 @@ public class Sistema {
 
 		Ticket ticket = new Ticket();
 
-		Tematica tematica = u.getPreferencia();
+	//	Tematica tematica = u.getPreferencia();
 		
 		for (Promocion p : Sistema.getPromociones()) {
 			if (verificarSugerible(p, ticket)) {
@@ -117,26 +121,42 @@ public class Sistema {
 		actualizarDatos();
 	}
 
-	public static boolean verificarSugerible(Sugerible producto, Ticket ticket) {
+	public static boolean verificarSugerible(Sugerible producto, Ticket ticket) throws SQLException {
 		Usuario u = Sistema.getUsuarioActual();
-
+		
+		
 		if (u.getCantidadMonedas() >= producto.getCosto() && u.getTiempoDisponible() >= producto.getTiempo()) {
 			if (producto.getClass().equals(Atraccion.class)) {
 				if (((Atraccion) producto).getCupoUsuarios() > 0
 						&& !ticket.getAtraccionesReservadas().contains(producto.getNombre()))
-					return true;
+					if(!verificarSugeriblesAnteriores(producto))
+						return true;
 			} else {
 				for (Atraccion a : ((Promocion) producto).getAtracciones()) {
 					if (a.getCupoUsuarios() > 0 && !ticket.getAtraccionesReservadas().contains(a.getNombre()))
-						return true;
+						if(!verificarSugeriblesAnteriores(producto))
+							return true;
 				}
 				if (producto.getClass().equals(PromoAxB.class)) {
 					if (((PromoAxB) producto).getAtraccionGratis().getCupoUsuarios() > 0
 							&& !ticket.getAtraccionesReservadas()
 									.contains(((PromoAxB) producto).getAtraccionGratis().getNombre()))
-						return true;
+						if(!verificarSugeriblesAnteriores(producto))
+							return true;
 				}
 			}
+		}
+		return false;
+	}
+
+	private static boolean verificarSugeriblesAnteriores(Sugerible compraActual) throws SQLException {
+		Usuario u = Sistema.getUsuarioActual();
+		ArrayList<Ticket> comprasAnteriores = (ArrayList<Ticket>) tC.findAllBy("id_usuario", "=", u.getId().toString());
+		for (Ticket t: comprasAnteriores) {
+			if(t.getAtraccionesReservadas().contains(compraActual.getNombre()) || 
+					t.getPromocionesReservadas().contains(compraActual.getNombre()))
+				return true;
+			
 		}
 		return false;
 	}
@@ -190,17 +210,11 @@ public class Sistema {
 	}
 
 	public static void cargarDatos() throws SQLException, NoExisteTematicaException {
-		PromocionController pC = new PromocionController();
-		AtraccionController aC = new AtraccionController();
-		UsuarioController uC = new UsuarioController();
 		setPromociones((ArrayList<Promocion>) pC.findAll());
 		setAtracciones((ArrayList<Atraccion>) aC.findAll());
 		setUsuarios((ArrayList<Usuario>) uC.findAll());
 	}
 	public static void actualizarDatos() throws SQLException, NoExisteTematicaException {
-		PromocionController pC = new PromocionController();
-		AtraccionController aC = new AtraccionController();
-		UsuarioController uC = new UsuarioController();
 		for (Promocion p: getPromociones())
 			pC.update(p);
 		for (Atraccion a: getAtracciones())
@@ -210,7 +224,6 @@ public class Sistema {
 		cargarDatos();
 	}
 	public static void crearTicket(Ticket t)throws SQLException, FileNotFoundException, IOException {
-		TicketController tC = new TicketController();
 		t.setId(tC.countAll()+1);
 		tC.insert(t);
 		Archivo.generarTicket(t, false);

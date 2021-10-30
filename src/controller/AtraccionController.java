@@ -48,4 +48,9 @@ public class AtraccionController extends AtraccionDAOImp {
 		return super.findById(id);
 	}
 	
+	@Override
+	public List<Atraccion> findAllBy(String campo, String operador, String valor)  throws SQLException{
+		return super.findAllBy(campo, operador, valor);
+	}
+	
 }

@@ -15,17 +15,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	 public List<Usuario> findAll()  throws SQLException, NoExisteTematicaException{
 		
-		List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
-		
-		ResultSet rs = CRUD.select("usuarios", "*", "");
-		while (rs.next())
-		listaDeUsuarios.add(new Usuario(rs.getInt("id_usuario"), 
-										rs.getString("nombre"), 
-										rs.getInt("monedas"),
-										rs.getDouble("tiempo"),
-										tematica.findById(rs.getInt("id_tematica"))));		
-		
-		return listaDeUsuarios;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -120,5 +110,22 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public Usuario findById(int id) throws SQLException {
 		return this.findBy("id_usuario", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<Usuario> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("usuarios", "*", condicion);
+		while (rs.next())
+		listaDeUsuarios.add(new Usuario(rs.getInt("id_usuario"), 
+										rs.getString("nombre"), 
+										rs.getInt("monedas"),
+										rs.getDouble("tiempo"),
+										tematica.findById(rs.getInt("id_tematica"))));		
+		
+		return listaDeUsuarios;
 	}
 }

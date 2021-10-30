@@ -22,55 +22,8 @@ public class PromocionDAOImp implements PromocionDAO {
 	@Override
 	public List<Promocion> findAll()  throws SQLException, NoExisteTematicaException{
 		
-		List<Promocion> listaDePromociones = new ArrayList<Promocion>();
 		
-		ResultSet rs = CRUD.select("Promociones", "*", "");
-		
-		while (rs.next()) {
-			int id = rs.getInt("id_Promocion");
-			int idFree = 0;
-			ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
-			TipoPromocion tipoPromocion = tipoPromo.findById(rs.getInt("id_tipo_promocion"));
-			ResultSet rs2 = CRUD.select("promo_atracciones", "*", "id_promocion = " + id);
-			while(rs2.next()) {
-				if(rs2.getInt(3) != 1) {
-					atracciones.add(atraccion.findById(rs2.getInt("id_atraccion")));					
-				} else {
-					idFree = rs2.getInt("id_atraccion");
-				}
-			}
-			if(tipoPromocion.getId() == 1) {
-				listaDePromociones.add(new PromoAbsoluta(
-															id, 
-															rs.getString("nombre"),
-															rs.getInt("costo"),
-															atracciones,
-															tipoPromocion));
-			}
-			if(tipoPromocion.getId() == 2) {
-				listaDePromociones.add(new PromoAxB(
-															id, 
-															rs.getString("nombre"),
-															atraccion.findById(idFree),
-															atracciones,
-															tipoPromocion));
-			}
-			if(tipoPromocion.getId() == 3) {
-				double oferton = 0.0;
-				ResultSet rs3 = CRUD.select("promo_descuento", "descuento", "id_promocion = " + id);
-				
-				if(rs3.next())
-					oferton = rs3.getDouble("descuento");
-					
-				listaDePromociones.add(new PromoPorcentual(
-															id, 
-															rs.getString("nombre"),
-															oferton,
-															atracciones,
-															tipoPromocion));
-			}
-		}
-		return listaDePromociones;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -309,6 +262,61 @@ public class PromocionDAOImp implements PromocionDAO {
 	@Override
 	public Promocion findById(int id) throws SQLException {
 		return findBy("id_promocion", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<Promocion> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<Promocion> listaDePromociones = new ArrayList<Promocion>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("Promociones", "*", condicion);
+		
+		while (rs.next()) {
+			int id = rs.getInt("id_Promocion");
+			int idFree = 0;
+			ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+			TipoPromocion tipoPromocion = tipoPromo.findById(rs.getInt("id_tipo_promocion"));
+			ResultSet rs2 = CRUD.select("promo_atracciones", "*", "id_promocion = " + id);
+			while(rs2.next()) {
+				if(rs2.getInt(3) != 1) {
+					atracciones.add(atraccion.findById(rs2.getInt("id_atraccion")));					
+				} else {
+					idFree = rs2.getInt("id_atraccion");
+				}
+			}
+			if(tipoPromocion.getId() == 1) {
+				listaDePromociones.add(new PromoAbsoluta(
+															id, 
+															rs.getString("nombre"),
+															rs.getInt("costo"),
+															atracciones,
+															tipoPromocion));
+			}
+			if(tipoPromocion.getId() == 2) {
+				listaDePromociones.add(new PromoAxB(
+															id, 
+															rs.getString("nombre"),
+															atraccion.findById(idFree),
+															atracciones,
+															tipoPromocion));
+			}
+			if(tipoPromocion.getId() == 3) {
+				double oferton = 0.0;
+				ResultSet rs3 = CRUD.select("promo_descuento", "descuento", "id_promocion = " + id);
+				
+				if(rs3.next())
+					oferton = rs3.getDouble("descuento");
+					
+				listaDePromociones.add(new PromoPorcentual(
+															id, 
+															rs.getString("nombre"),
+															oferton,
+															atracciones,
+															tipoPromocion));
+			}
+		}
+		return listaDePromociones;
 	}
 
 }

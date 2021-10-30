@@ -20,6 +20,8 @@ public interface GenericDAO<T> {
 	public int deleteBy(String campo, String tipo, String valor) throws SQLException;
 	
 	public T findBy (String campo, String operador, String valor) throws SQLException;
+	
+	public List<T> findAllBy (String campo, String operador, String valor) throws SQLException;
 
 	public T findById (int id) throws SQLException;
 	

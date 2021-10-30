@@ -13,14 +13,9 @@ public class TematicaDAOImp implements TematicaDAO {
 	@Override
 	 public List<Tematica> findAll()  throws SQLException, NoExisteTematicaException{
 		
-		List<Tematica> listaDeTematicas = new ArrayList<Tematica>();
 		
-		ResultSet rs = CRUD.select("tematicas", "*", "");
-		while (rs.next())
-		listaDeTematicas.add(new Tematica(rs.getInt("id_tematica"), 
-										rs.getString("nombre")));	
 		
-		return listaDeTematicas;
+		return findAllBy("", "", "");
 	}
 
 	@Override
@@ -95,6 +90,19 @@ public class TematicaDAOImp implements TematicaDAO {
 	@Override
 	public Tematica findById(int id) throws SQLException {
 		return this.findBy("id_tematica", "=", String.valueOf(id));
+	}
+
+	@Override
+	public List<Tematica> findAllBy(String campo, String operador, String valor) throws SQLException {
+		List<Tematica> listaDeTematicas = new ArrayList<Tematica>();
+		String condicion = "";
+		if(!campo.equals("") && !operador.equals("") && !valor.equals("")) 
+			condicion = campo + " " + operador + " " + valor;
+		ResultSet rs = CRUD.select("tematicas", "*", condicion);
+		while (rs.next())
+		listaDeTematicas.add(new Tematica(rs.getInt("id_tematica"), 
+										rs.getString("nombre")));	
+		return listaDeTematicas;
 	}
 
 }
