@@ -11,10 +11,12 @@ public class OrdenadorPorTematica implements Comparator<Sugerible> {
 	public int compare(Sugerible s1, Sugerible s2) {
 		Tematica tematicaUsuario = Sistema.getUsuarioActual().getPreferencia();
 		
-		if(s1.getTematica().equals(tematicaUsuario) && !s2.getTematica().equals(tematicaUsuario))
+		if(s1.getTematica().getNombre().equals(tematicaUsuario.getNombre()) &&
+		  !s2.getTematica().getNombre().equals(tematicaUsuario.getNombre()))
 			return -1;
 		
-		if(!s1.getTematica().equals(tematicaUsuario) && s2.getTematica().equals(tematicaUsuario))
+		if(!s1.getTematica().getNombre().equals(tematicaUsuario.getNombre()) && 
+			s2.getTematica().getNombre().equals(tematicaUsuario.getNombre()))
 			return 1;
 		
 		return s1.compareTo(s2);

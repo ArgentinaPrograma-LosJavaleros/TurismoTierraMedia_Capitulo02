@@ -1,5 +1,7 @@
 package app;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -67,7 +69,7 @@ public class Sistema {
 	}
 	// --------------------------------------------------------------------------
 
-	public static void cargarOfertas() {
+	public static void cargarOfertas() throws SQLException, NoExisteTematicaException, FileNotFoundException, IOException {
 		Scanner ingreso = new Scanner(System.in);
 
 		Usuario u = Sistema.getUsuarioActual();
@@ -111,6 +113,8 @@ public class Sistema {
 		
 		ingreso.close();
 		System.out.println(ticket);
+		crearTicket(ticket);
+		actualizarDatos();
 	}
 
 	public static boolean verificarSugerible(Sugerible producto, Ticket ticket) {
@@ -204,5 +208,12 @@ public class Sistema {
 		for (Usuario u: getUsuarios())
 			uC.update(u);
 		cargarDatos();
+	}
+	public static void crearTicket(Ticket t)throws SQLException, FileNotFoundException, IOException {
+		TicketController tC = new TicketController();
+		t.setId(tC.countAll()+1);
+		tC.insert(t);
+		Archivo.generarTicket(t, false);
+		
 	}
 }

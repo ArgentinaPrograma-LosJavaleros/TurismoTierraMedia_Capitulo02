@@ -66,7 +66,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public int update(Usuario t) throws SQLException {
-
+		String condicion = " where id_usuario = " + t.getId();
 		List<String> columnas= new ArrayList<String> ();
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
@@ -89,7 +89,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		values.add(t.getTiempoDisponible().toString());
 		values.add(t.getPreferencia().getId().toString());
 				
-		return CRUD.update("usuarios", columnas, tipos, values);
+		return CRUD.update("usuarios", columnas, tipos, values, condicion);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("usuarios", campo, tipo, valor);
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
+		return delete(findBy(campo, operador, valor));
 	}
 
 	@Override

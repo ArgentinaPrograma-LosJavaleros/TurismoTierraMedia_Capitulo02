@@ -83,53 +83,71 @@ public class PromocionDAOImp implements PromocionDAO {
 
 	@Override
 	public int insert(Promocion t) throws SQLException {
-		return insertPromociones(t) + insertPromo_Atracciones(t) + insertPromoDatoExtra(t);
+		int contador = 0;
+		contador += insertOrUpdatePromociones(t,1); 
+		contador += insertOrUpdatePromo_Atracciones(t,1); 
+		contador += insertOrUpdatePromoDatoExtra(t,1);
+		
+		return contador;
 	}
 
-	private int insertPromoDatoExtra(Promocion t) throws SQLException {
+	private int insertOrUpdatePromoDatoExtra(Promocion t, int modificacionTipo) throws SQLException {
 		List<String> columnas3 = new ArrayList <String> ();
 		List<String> tipos3 = new ArrayList <String> (); 
 		List<String> values3 = new ArrayList <String> (); 
+		int contador=0;
+		String condicion = " where id_promocion = " + t.getId();
 		
 		if(t.getTipoPromocion().getId() == 2) {
 			
 			Atraccion atraccion1 = atraccion.findBy(
 					"nombre", "=", "\"" + ((PromoAxB)t).getAtraccionGratis().getNombre() + "\"");
 			
-			columnas3.add("gratis");
+	
 			columnas3.add("id_promocion");
+			tipos3.add("Int");
+			values3.add(t.getId().toString());
+
+			columnas3.add("gratis");
 			columnas3.add("id_atraccion");
 			
 			tipos3.add("Int");
 			tipos3.add("Int");
-			tipos3.add("Int");
 			
 			values3.add(String.valueOf(1));
-			values3.add(t.getId().toString());
 			values3.add(atraccion1.getId().toString());
 
-			return CRUD.insert("promo_atracciones", columnas3, tipos3, values3);
+			condicion += " and id_atraccion = " + atraccion1.getId();
+			
+		if(modificacionTipo==1)
+			contador += CRUD.insert("promo_atracciones", columnas3, tipos3, values3);
+		if(modificacionTipo==2)
+			contador += CRUD.update("promo_atracciones", columnas3, tipos3, values3, condicion);
 		}
 		
 		if(t.getTipoPromocion().getId() == 3) {
 			
-			columnas3.add("descuento");
 			columnas3.add("id_promocion");
+			columnas3.add("descuento");
 			
-			tipos3.add("Double");
 			tipos3.add("Int");
+			tipos3.add("Double");
 			
-			values3.add(((PromoPorcentual)t).getPorciento().toString());
 			values3.add(t.getId().toString());
+			values3.add(((PromoPorcentual)t).getPorciento().toString());
 			
-			return CRUD.insert("promo_descuento", columnas3, tipos3, values3);
+			if(modificacionTipo==1)
+				contador += CRUD.insert("promo_descuento", columnas3, tipos3, values3);
+			if(modificacionTipo==2)
+				contador += CRUD.update("promo_descuento", columnas3, tipos3, values3, condicion);
 		}
 		
-		return 0;
+		return contador;
 	}
 
-	private int insertPromo_Atracciones(Promocion t) throws SQLException {
-			
+	private int insertOrUpdatePromo_Atracciones(Promocion t,int modificacionTipo) throws SQLException {
+			int contador = 0;
+			String condicion = " where id_promocion = '" + t.getId() + "' and id_atraccion = '";
 			Atraccion atraccion1 = atraccion.findBy(
 					"nombre", "=", "\"" + t.getAtracciones().get(0).getNombre() + "\"");
 			Atraccion atraccion2 = atraccion.findBy(
@@ -143,13 +161,13 @@ public class PromocionDAOImp implements PromocionDAO {
 			List<String> tipos2 = new ArrayList <String> (); 
 			List<String> values2 = new ArrayList <String> ();	
 			
-			columnas.add("gratis");
 			columnas.add("id_promocion");
 			columnas.add("id_atraccion");
+			columnas.add("gratis");
 			
-			columnas2.add("gratis");
 			columnas2.add("id_promocion");
 			columnas2.add("id_atraccion");
+			columnas2.add("gratis");
 			
 			tipos.add("Int");
 			tipos.add("Int");
@@ -159,23 +177,36 @@ public class PromocionDAOImp implements PromocionDAO {
 			tipos2.add("Int");
 			tipos2.add("Int");
 			
-			values.add(String.valueOf(0));
 			values.add(t.getId().toString());
 			values.add(atraccion1.getId().toString());
+			values.add(String.valueOf(0));
 			
-			values2.add(String.valueOf(0));
 			values2.add(t.getId().toString());
 			values2.add(atraccion2.getId().toString());
-		
-		return CRUD.insert("promo_atracciones", columnas, tipos, values) 
-	         + CRUD.insert("promo_atracciones", columnas2, tipos2, values2);
+			values2.add(String.valueOf(0));
+		if (modificacionTipo==1) {
+			contador += CRUD.insert("promo_atracciones", columnas, tipos, values); 
+		    contador += CRUD.insert("promo_atracciones", columnas2, tipos2, values2);
+		}
+		if (modificacionTipo==2){
+			contador += CRUD.update("promo_atracciones", columnas, tipos, values, condicion + atraccion1.getId() + "'"); 
+		    contador += CRUD.update("promo_atracciones", columnas2, tipos2, values2, condicion + atraccion2.getId() + "'");
+		}
+		return contador;
 	}
 
-	private int insertPromociones(Promocion t) throws SQLException {
+	private int insertOrUpdatePromociones(Promocion t, int modificacionTipo) throws SQLException {
+		int contador = 0;
+		String condicion = " where id_promocion = " + t.getId();
 		List<String> columnas = new ArrayList <String> ();
 		List<String> tipos = new ArrayList <String> (); 
 		List<String> values = new ArrayList <String> (); 
 
+		if(modificacionTipo==2) {
+			columnas.add("id_promocion");
+			tipos.add("Int");
+			values.add(t.getId().toString());
+		}
 		columnas.add("nombre");
 		columnas.add("costo");
 		columnas.add("id_tipo_promocion");
@@ -188,90 +219,22 @@ public class PromocionDAOImp implements PromocionDAO {
 		values.add(t.getCosto().toString());
 		values.add(t.getTipoPromocion().getId().toString());
 
-		return CRUD.insert("Promociones", columnas, tipos, values);
+		if(modificacionTipo==1)
+			contador += CRUD.insert("Promociones", columnas, tipos, values);
+		if(modificacionTipo==2)
+			contador += CRUD.update("Promociones", columnas, tipos, values, condicion);
+		
+		return contador;
 	}
 
 	@Override
 	public int update(Promocion t) throws SQLException {
 
 		int contador = 0;
-		List<String> columnas = new ArrayList <String> ();
-		List<String> tipos = new ArrayList <String> (); 
-		List<String> values = new ArrayList <String> (); 
+		contador += insertOrUpdatePromociones(t,2); 
+		contador += insertOrUpdatePromo_Atracciones(t,2); 
+		contador += insertOrUpdatePromoDatoExtra(t,2);
 		
-		List<String> columnas1 = new ArrayList <String> ();
-		List<String> tipos1 = new ArrayList <String> (); 
-		List<String> values1 = new ArrayList <String> (); 
-		
-		columnas1.add("id_promocion");
-		columnas1.add("nombre");
-		columnas1.add("costo");
-		columnas1.add("id_tipo_promocion");
-		
-		tipos1.add("Int");
-		tipos1.add("String");
-		tipos1.add("Int");
-		tipos1.add("Int");
-		
-		values1.add(t.getId().toString());
-		values1.add(t.getNombre());
-		values1.add(t.getCosto().toString());
-		values1.add(t.getTipoPromocion().getId().toString());
-		
-		for(Atraccion a : t.getAtracciones()) {
-			List<String> columnas2 = new ArrayList <String> ();
-			List<String> tipos2 = new ArrayList <String> (); 
-			List<String> values2 = new ArrayList <String> ();
-			
-			columnas2.add("id_promocion");
-			columnas2.add("id_atraccion");
-			columnas2.add("gratis");
-			
-			tipos2.add("Int");
-			tipos2.add("Int");
-			tipos2.add("Int");
-			
-			values2.add(t.getId().toString());
-			values2.add(a.getId().toString());
-			values2.add(String.valueOf(0));
-			
-			contador += CRUD.update("promo_atracciones", columnas2, tipos2, values2);
-			
-		}
-		
-		if(t.getTipoPromocion().getId() == 2) {
-			
-			columnas.add("id_promocion");
-			columnas.add("id_atraccion");
-			columnas.add("gratis");
-			
-			tipos.add("Int");
-			tipos.add("Int");
-			tipos.add("Int");
-			
-			values.add(t.getId().toString());
-			values.add(((PromoAxB)t).getAtraccionGratis().getId().toString());
-			values.add(String.valueOf(1));
-			
-			contador += CRUD.update("promo_atracciones", columnas, tipos, values);
-		}
-		
-		if(t.getTipoPromocion().getId() == 3) {
-			
-			columnas.add("id_promocion");
-			columnas.add("descuento");
-			
-			tipos.add("Int");
-			tipos.add("Double");
-			
-			values.add(t.getId().toString());
-			values.add(((PromoPorcentual)t).getPorciento().toString());
-			
-			contador += CRUD.update("promo_descuento", columnas, tipos, values);
-			
-		}
-		
-		contador += CRUD.update("Promociones", columnas1, tipos1, values1);
 		return contador;
 	}
 
@@ -288,25 +251,16 @@ public class PromocionDAOImp implements PromocionDAO {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
 		
-		int contador = 0;
-		
-//		contador += CRUD.delete("Promo_atracciones", "id_Promocion", "int", t.getId().toString());
-//		contador += CRUD.delete("Promo_descuentos", "id_Promocion", "int", t.getId().toString());
-//		contador += CRUD.delete("Promociones", "id_Promocion", "int", t.getId().toString());
-//		campo, tipo, valor
-	
-		return contador;
+		return delete(findBy(campo, operador, valor));
 	}
 
 	@SuppressWarnings("null")
 	@Override
 	public Promocion findBy(String campo, String operador, String valor) throws SQLException {
 		
-		Promocion promocion = null;
-		promocion.setNombre("No Existe");
-		
+	
 		String consulta = campo + " " + operador + " " + valor;
 		
 		ResultSet rs = CRUD.select("Promociones", "*", consulta);
@@ -315,9 +269,12 @@ public class PromocionDAOImp implements PromocionDAO {
 			
 			int id = rs.getInt("id_Promocion");
 			int idFree = 0;
+			String nombre = rs.getString("nombre");
+			int costo = rs.getInt("costo");
+			
 			ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 			TipoPromocion tipoPromocion = tipoPromo.findById(rs.getInt("id_tipo_promocion"));
-			ResultSet rs2 = CRUD.select("promo_atracciones", "id_atraccion", "id_promocion = " + id);
+			ResultSet rs2 = CRUD.select("promo_atracciones", "*", "id_promocion = " + id);
 
 			while(rs2.next()) {
 				if(rs2.getInt("gratis") != 1) {
@@ -328,20 +285,11 @@ public class PromocionDAOImp implements PromocionDAO {
 			}
 			
 			if(tipoPromocion.getId() == 1) {
-				((PromoAbsoluta) promocion).setId(id);
-				((PromoAbsoluta) promocion).setNombre(rs.getString("nombre"));
-				((PromoAbsoluta) promocion).setCosto(rs.getInt("costo"));
-				((PromoAbsoluta) promocion).setAtracciones(atracciones);
-				((PromoAbsoluta) promocion).setTipoPromocion(tipoPromocion);
-				
+				return new PromoAbsoluta(id, nombre, costo, atracciones, tipoPromocion); 
 			}
 			
 			if(tipoPromocion.getId() == 2) {
-				((PromoAxB) promocion).setId(id);
-				((PromoAxB) promocion).setNombre(rs.getString("nombre"));
-				((PromoAxB) promocion).setAtraccionGratis(atraccion.findById(idFree));
-				((PromoAxB) promocion).setAtracciones(atracciones);
-				((PromoAxB) promocion).setTipoPromocion(tipoPromocion);
+				return new PromoAxB(id, nombre, atraccion.findById(idFree), atracciones, tipoPromocion); 
 			}
 			
 			if(tipoPromocion.getId() == 3) {
@@ -351,15 +299,11 @@ public class PromocionDAOImp implements PromocionDAO {
 				if(rs3.next())
 					oferton = rs3.getDouble("descuento");
 					
-				((PromoPorcentual) promocion).setId(id);
-				((PromoPorcentual) promocion).setNombre(rs.getString("nombre"));
-				((PromoPorcentual) promocion).setPorciento(oferton);
-				((PromoPorcentual) promocion).setAtracciones(atracciones);
-				((PromoPorcentual) promocion).setTipoPromocion(tipoPromocion);
+				return new PromoPorcentual(id, nombre, oferton, atracciones, tipoPromocion); 
 			}
 		}
 		
-		return promocion;
+		return null;
 	}
 
 	@Override

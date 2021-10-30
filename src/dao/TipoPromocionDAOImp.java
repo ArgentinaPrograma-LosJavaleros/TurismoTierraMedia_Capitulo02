@@ -52,7 +52,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 
 	@Override
 	public int update(TipoPromocion t) throws SQLException {
-
+		String condicion = " where id_tipo_promocion = " + t.getId();
 		List<String> columnas= new ArrayList<String> ();
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
@@ -66,7 +66,7 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 		values.add(t.getId().toString());
 		values.add(t.getNombre());
 				
-		return CRUD.update("tipo_promociones", columnas, tipos, values);
+		return CRUD.update("tipo_promociones", columnas, tipos, values, condicion);
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public class TipoPromocionDAOImp implements TipoPromocionDAO {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("tipo_promociones", campo, tipo, valor);
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
+		return delete(findBy(campo, operador, valor));
 	}
 
 	@Override

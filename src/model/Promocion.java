@@ -22,9 +22,7 @@ public abstract class Promocion extends Sugerible {
 		this.setTiempo();
 	}
 	
-	public Promocion(String nombre) {
-		this(null,nombre,null,null);
-	}
+	
 
 	// Setters
 	//--------------------------------------------------------------------------

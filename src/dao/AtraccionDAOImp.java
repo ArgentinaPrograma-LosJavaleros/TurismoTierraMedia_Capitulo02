@@ -70,7 +70,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 
 	@Override
 	public int update(Atraccion t) throws SQLException {
-
+		String condicion = " where id_atraccion = " + t.getId();
 		List<String> columnas= new ArrayList<String> ();
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
@@ -96,7 +96,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		values.add(t.getCosto().toString());
 		values.add(t.getTematica().getId().toString());
 		
-		return CRUD.update("atracciones", columnas, tipos, values);
+		return CRUD.update("atracciones", columnas, tipos, values, condicion);
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class AtraccionDAOImp implements AtraccionDAO {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("atracciones", campo, tipo, valor);
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
+		return delete(findBy(campo, operador, valor));
 	}
 
 	@Override
@@ -117,6 +117,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		if(rs.next()) {
 			atraccion.setId(rs.getInt("id_atraccion"));
 			atraccion.setNombre(rs.getString("nombre"));
+			atraccion.setCupoUsuarios(rs.getInt("cupos"));
 			atraccion.setCosto(rs.getInt("costo"));
 			atraccion.setTiempo(rs.getDouble("tiempo"));
 			atraccion.setTematica(tematica.findById(rs.getInt("id_tematica")));		

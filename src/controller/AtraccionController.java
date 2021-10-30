@@ -34,8 +34,8 @@ public class AtraccionController extends AtraccionDAOImp {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return super.deleteBy(campo, tipo, valor);
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
+		return super.deleteBy(campo, operador, valor);
 	}
 	
 	@Override

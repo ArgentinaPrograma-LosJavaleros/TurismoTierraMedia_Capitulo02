@@ -49,10 +49,10 @@ public class CRUD {
 		return actualizarTabla(tipo, valor, query);
 	}
 
-	public static int update(String tabla, List<String> columna, List<String> tipo, List<String> valor) throws SQLException {
+	public static int update(String tabla, List<String> columna, List<String> tipo, List<String> valor, String condicion) throws SQLException {
 		 
 		String rows = "";
-		String values = "";
+	//	String values = "";
 		String query = "";
 		
 		query = "UPDATE " + tabla + " SET ";
@@ -61,9 +61,12 @@ public class CRUD {
 			rows += columna.get(i) + " = ?, ";
 		}
 				
-		values = " WHERE " + columna.get(0) + " = " + valor.get(0);
-		query += rows.substring(0, rows.length()-2) + values; 
-		query = "INSERT INTO " + tabla + " (";
+	//	values = " WHERE " + columna.get(0) + " = " + valor.get(0);
+		query += rows.substring(0, rows.length()-2) + condicion; 
+		columna.remove(0);
+		tipo.remove(0);
+		valor.remove(0);
+		
 		return actualizarTabla(tipo, valor, query);
 	}	
 	

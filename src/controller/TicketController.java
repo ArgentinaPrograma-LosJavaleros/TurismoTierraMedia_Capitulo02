@@ -3,13 +3,12 @@ package controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import app.NoExisteTematicaException;
-import dao.PromocionDAOImp;
-import model.Promocion;
+import dao.TicketDAOImp;
+import model.Ticket;
 
-public class PromocionController extends PromocionDAOImp {
+public class TicketController extends TicketDAOImp {
 	@Override
-	public List<Promocion> findAll()  throws SQLException, NoExisteTematicaException{
+	public List<Ticket> findAll()  throws SQLException{
 		return super.findAll();
 	}
 	
@@ -19,17 +18,17 @@ public class PromocionController extends PromocionDAOImp {
 	}
 	
 	@Override	
-	public int insert(Promocion t) throws SQLException {
+	public int insert(Ticket t) throws SQLException {
 		return super.insert(t);
 	}
 
 	@Override
-	public int update(Promocion t) throws SQLException {
+	public int update(Ticket t) throws SQLException {
 		return super.update(t);
 	}
 
 	@Override
-	public int delete(Promocion t) throws SQLException {
+	public int delete(Ticket t) throws SQLException {
 		return super.delete(t);
 	}
 
@@ -39,12 +38,13 @@ public class PromocionController extends PromocionDAOImp {
 	}
 	
 	@Override
-	public Promocion findBy(String campo, String operador, String valor) throws SQLException {
+	public Ticket findBy(String campo, String operador, String valor) throws SQLException {
 		return super.findBy(campo, operador, valor);
 	}
 
 	@Override
-	public Promocion findById(int id) throws SQLException {
+	public Ticket findById(int id) throws SQLException {
 		return super.findById(id);
 	}
+	
 }

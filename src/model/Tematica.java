@@ -2,13 +2,6 @@ package model;
 
 public class Tematica {
 	
-//	AVENTURA("Aventura"), 
-//	PAISAJE("Paisaje"), 
-//	DEGUSTACION("Desgutación"), 
-//	EXTREMO("Extremo"),
-//	ENTRETENIMIENTO("Entretenimiento"),
-//	CARRERA("Carrera"); 
-	
 	private Integer id;
 	private String nombre;
 	

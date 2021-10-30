@@ -53,7 +53,7 @@ public class TematicaDAOImp implements TematicaDAO {
 
 	@Override
 	public int update(Tematica t) throws SQLException {
-
+		String condicion = " where id_tematica = " + t.getId();
 		List<String> columnas= new ArrayList<String> ();
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
@@ -67,7 +67,7 @@ public class TematicaDAOImp implements TematicaDAO {
 		values.add(t.getId().toString());
 		values.add(t.getNombre());
 				
-		return CRUD.update("tematicas", columnas, tipos, values);
+		return CRUD.update("tematicas", columnas, tipos, values, condicion);
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class TematicaDAOImp implements TematicaDAO {
 	}
 
 	@Override
-	public int deleteBy(String campo, String tipo, String valor) throws SQLException {
-		return CRUD.delete("tematicas", campo, tipo, valor);
+	public int deleteBy(String campo, String operador, String valor) throws SQLException {
+		return delete(findBy(campo, operador, valor));
 	}
 
 	@Override

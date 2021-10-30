@@ -27,6 +27,10 @@ public class Ticket {
 		this(0, Sistema.getUsuarioActual().getNombre(), 0, 0.0, new ArrayList<String>(), new ArrayList<String>());
 	}
 
+	public Ticket(String comprador) {
+		this(0, comprador , 0, 0.0, null , null);
+	}
+
 	// Setters
 	// --------------------------------------------------------------------------
 	public void setId(Integer id) {
