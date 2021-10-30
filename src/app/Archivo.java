@@ -86,7 +86,7 @@ public class Archivo {
 				double tiempo = Double.parseDouble(valores[2]);
 				int cupos = Integer.parseInt(valores[3]);
 
-				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos, tematica.findById(Integer.parseInt(valores[3]))));
+				atracciones.add(new Atraccion(0,valores[0], costo, tiempo, cupos,tematica.findBy("nombre", "=", "\"" + (valores[4]) + "\"")));
 
 			}
 

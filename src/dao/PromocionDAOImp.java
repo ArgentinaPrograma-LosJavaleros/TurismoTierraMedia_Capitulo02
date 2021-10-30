@@ -31,9 +31,9 @@ public class PromocionDAOImp implements PromocionDAO {
 			int idFree = 0;
 			ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 			TipoPromocion tipoPromocion = tipoPromo.findById(rs.getInt("id_tipo_promocion"));
-			ResultSet rs2 = CRUD.select("promo_atracciones", "id_atraccion", "id_promocion = " + id);
+			ResultSet rs2 = CRUD.select("promo_atracciones", "*", "id_promocion = " + id);
 			while(rs2.next()) {
-				if(rs2.getInt("gratis") != 1) {
+				if(rs2.getInt(3) != 1) {
 					atracciones.add(atraccion.findById(rs2.getInt("id_atraccion")));					
 				} else {
 					idFree = rs2.getInt("id_atraccion");

@@ -52,21 +52,21 @@ public class App {
 		UsuarioController user = new UsuarioController();
 		AtraccionController atraccion = new AtraccionController();
 		PromocionController promocion = new PromocionController();
-		TematicaController tematica = new TematicaController();
+//		TematicaController tematica = new TematicaController();
 		
 //		System.out.println(tematica.insert(new Tematica("Carrera")));
 			
 //		System.out.println("Cantidad de Usuarios = " + user.countAll());
 		
 //		Sistema.setUsuarios(Archivo.cargarUsuarios());
-		
+//		
 //		for (Usuario u: Sistema.getUsuarios())
 //			user.insert(u);
-		
-		System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, tematica.findBy("nombre", "=", "\"extremo\""))));
-		
-		System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, tematica.findBy("nombre", "=", "\"degustacion\""))));
-		
+//		
+//		System.out.println(user.insert(new Usuario(null, "Puflito", 99999, 9.0, tematica.findBy("nombre", "=", "'Extremo'"))));
+//		
+//		System.out.println(user.insert(new Usuario(null, "Chiruzi", 65, 4.0, tematica.findBy("nombre", "=", "\"Degustacion\""))));
+//		
 		for (Usuario u : user.findAll())
 			System.out.println(u);
 				
@@ -82,19 +82,19 @@ public class App {
 		
 //		Sistema.setAtracciones(Archivo.cargarAtracciones());
 //		Sistema.setPromociones(Archivo.cargarPromociones());
-		
+//		
 //		for (Atraccion a: Sistema.getAtracciones())
 //			atraccion.insert(a);
-//		for (Atraccion a: atraccion.findAll())
-//			System.out.println(a);
+		for (Atraccion a: atraccion.findAll())
+			System.out.println(a);
 //		int contador = 1;
 //		for (Promocion p: Sistema.getPromociones()) {
 //			p.setId(contador);
 //			promocion.insert(p);
 //			contador++;
 //		}
-//		for (Promocion p: promocion.findAll())
-//			System.out.println(p);
+		for (Promocion p: promocion.findAll())
+			System.out.println(p);
 		
 		ConnectionProvider.closeConnection();
 	}
