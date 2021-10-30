@@ -30,7 +30,7 @@ public class App {
 
 		
 		Collections.sort(Sistema.getUsuarios());
-		Sistema.mostrarUsuarios();
+		SistemaFront.mostrarUsuarios();
 		
 		do {
 			System.out.println("");
@@ -41,11 +41,11 @@ public class App {
 
 		System.out.println("");
 		Collections.sort(Sistema.getAtracciones(), new OrdenadorPorTematica());
-		Sistema.mostrarAtracciones();
+		SistemaFront.mostrarAtracciones();
 
 		System.out.println("");
 		Collections.sort(Sistema.getPromociones(), new OrdenadorPorTematica());
-		Sistema.mostrarPromociones();
+		SistemaFront.mostrarPromociones();
 
 		System.out.println("");
 		Sistema.cargarOfertas();
@@ -99,6 +99,7 @@ public class App {
 //			promocion.insert(p);
 //			contador++;
 //		}
+		
 		ConnectionProvider.closeConnection();
 		System.out.println("OK");
 	}

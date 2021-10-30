@@ -1,6 +1,7 @@
 package model;
 
 import app.Sistema;
+import app.SistemaFront;
 
 public abstract class Sugerible implements Comparable<Sugerible> {
 	
@@ -51,24 +52,6 @@ public abstract class Sugerible implements Comparable<Sugerible> {
 		this.tematica = tematica;
 	}
 	
-	protected String generarDato(Object obj, String str) {
-		int size = 58 - (str + obj.toString()).length();
-		return "|" + str + Sistema.repiteCaracteres(" ", (int)size) + obj + "|";
-	}
-	
-	public String mostrarSugerible() {
-		double size = (double) ((58 - (double) getNombre().length()) / 2);
-		System.out.println(" " + Sistema.repiteCaracteres("_", 58) + " ");
-		System.out.println("|" + Sistema.repiteCaracteres(" ", 58) + "|");
-		System.out.println("|" + Sistema.repiteCaracteres(" ", (int)Math.floor(size)) + getNombre() + Sistema.repiteCaracteres(" ", (int)Math.ceil(size)) + "|");
-		System.out.println("|" + Sistema.repiteCaracteres("_", 58) + "|");
-		System.out.println(generarDato("$" + getCosto(), "Costo:"));
-		System.out.println(generarDato(getTiempo() + "Hs", "Tiempo:"));
-		System.out.println(generarDato(getTematica(), "Temática:"));
-		System.out.println("|" + Sistema.repiteCaracteres("_", 58) + "|");
-		return "";
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

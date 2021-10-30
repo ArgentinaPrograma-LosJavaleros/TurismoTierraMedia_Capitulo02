@@ -23,7 +23,7 @@ public class Atraccion extends Sugerible {
 	}
 	
 	public Integer getCupoUsuarios() {
-		return cupoUsuarios;
+		return cupoUsuarios; 
 	}
 
 	@Override

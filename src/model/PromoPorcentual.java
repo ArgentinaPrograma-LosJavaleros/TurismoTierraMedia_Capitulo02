@@ -39,12 +39,5 @@ public class PromoPorcentual extends Promocion {
 				         getTematica());
 		return "";
 	}
-
-	@Override
-	public String mostrarSugerible() {
-		super.mostrarSugerible();
-		mostrarBeneficio("%" + (int)(getPorciento() * 100) + " OFF");
-		return "";
-	}
 	
 }

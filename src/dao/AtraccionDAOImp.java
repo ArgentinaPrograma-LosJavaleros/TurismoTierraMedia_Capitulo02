@@ -130,9 +130,9 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		while (rs.next())
 		listaDeAtraccions.add(new Atraccion(rs.getInt("id_Atraccion"), 
 										rs.getString("nombre"),
-										rs.getInt("cupos"),
-										rs.getDouble("tiempo"),
 										rs.getInt("costo"),
+										rs.getDouble("tiempo"),
+										rs.getInt("cupos"),
 										tematica.findById(rs.getInt("id_tematica"))));			
 		
 		

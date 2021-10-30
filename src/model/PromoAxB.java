@@ -37,11 +37,4 @@ public class PromoAxB extends Promocion {
 		return "";
 	}
 	
-	@Override
-	public String mostrarSugerible() {
-		super.mostrarSugerible();
-		mostrarBeneficio(getAtraccionGratis().getNombre() + " ¡GRATIS! :D");
-		return "";
-	}
-
 }

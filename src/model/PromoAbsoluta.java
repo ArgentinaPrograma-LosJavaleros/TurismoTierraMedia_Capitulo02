@@ -36,12 +36,5 @@ public class PromoAbsoluta extends Promocion {
 		                getTematica());
 		return "";
 	}
-	
-	@Override
-	public String mostrarSugerible() {
-		super.mostrarSugerible();
-		mostrarBeneficio("-$" + (getCostoAnterior() - getCosto()));
-		return "";
-	}
 
 }
