@@ -57,7 +57,7 @@ public class SistemaFront {
 	
 	//----------------------------------------------------------------------------------
 	
-	// Sugeribles
+	// IMPRESION DE SUGERIBLES
 	//----------------------------------------------------------------------------------
 	
 	public static String mostrarSugerible(Sugerible s) {
@@ -79,8 +79,6 @@ public class SistemaFront {
 		return "";
 	}
 	
-	//----------------------------------------------------------------------------------
-
 	public static String mostrarBeneficio(Promocion p, Object obj) {
 		double size = (double) ((58 - (double) ("Incluyen...").length()) / 2);
 		System.out.println("|" + repiteCaracteres("x", 58) + "|");
@@ -93,10 +91,6 @@ public class SistemaFront {
 		return "";
 	}
 
-	
-	// Atracciones
-	//----------------------------------------------------------------------------------
-	
 	public static String mostrarAtraccion(Atraccion atraccion) {
 		String costo = "Costo: $" + atraccion.getCosto();		
 		String tiempo = "Tiempo: " + atraccion.getTiempo() + "Hs";
@@ -112,6 +106,9 @@ public class SistemaFront {
 	
 	//----------------------------------------------------------------------------------
 	
+	// GENERADOR DE CARACTERES
+	//----------------------------------------------------------------------------------
+	
 	private static String generarDato(Object obj, String str) {
 		int size = 58 - (str + obj.toString()).length();
 		return "|" + str + repiteCaracteres(" ", (int)size) + obj + "|";
@@ -124,5 +121,7 @@ public class SistemaFront {
 		}
 		return str2;
 	}
+	
+	//----------------------------------------------------------------------------------
 	
 }

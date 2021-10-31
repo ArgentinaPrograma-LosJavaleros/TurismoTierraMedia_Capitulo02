@@ -1,5 +1,11 @@
 package model;
 
+import java.sql.SQLException;
+
+import app.NoExisteTematicaException;
+import app.Sistema;
+import controller.AtraccionController;
+
 public class Usuario implements Comparable<Usuario>{
 
 	private Integer id;
@@ -113,7 +119,8 @@ public class Usuario implements Comparable<Usuario>{
 	}
 
 	
-	public void comprar(Sugerible producto, Ticket ticket) {
+	public void comprar(Sugerible producto, Ticket ticket) throws SQLException, NoExisteTematicaException {
+		AtraccionController atraccion = new AtraccionController();
 		
 		this.setCantidadMonedas(this.cantidadMonedas - producto.getCosto());
 		this.setTiempoDisponible(this.tiempoDisponible - producto.getTiempo());
@@ -124,18 +131,22 @@ public class Usuario implements Comparable<Usuario>{
 		if (producto.getClass().equals(Atraccion.class)) {
 			ticket.setAtraccionesReservadas(producto.getNombre());
 			((Atraccion) producto).setCupoUsuarios(((Atraccion) producto).getCupoUsuarios() - 1);
+			atraccion.update(((Atraccion) producto));
 		} else {
-			for (Atraccion a : ((Promocion) producto).getAtracciones()) {
-				a.setCupoUsuarios(a.getCupoUsuarios() - 1);
-				ticket.setAtraccionesReservadas(a.getNombre());
+			for (Atraccion a : ((Promocion)producto).getAtracciones()) {
+					a.setCupoUsuarios(a.getCupoUsuarios() - 1);
+					atraccion.update(a);
+					ticket.setAtraccionesReservadas(a.getNombre());
 			}
 			if (producto.getClass().equals(PromoAxB.class)) {
-				((PromoAxB) producto).getAtraccionGratis()
-						.setCupoUsuarios(((PromoAxB) producto).getAtraccionGratis().getCupoUsuarios() - 1);
-				ticket.setAtraccionesReservadas(((PromoAxB) producto).getAtraccionGratis().getNombre());
+				Atraccion a = ((PromoAxB) producto).getAtraccionGratis();
+				a.setCupoUsuarios(a.getCupoUsuarios() - 1);
+				atraccion.update(a);
+				ticket.setAtraccionesReservadas(a.getNombre());
 			}
 			ticket.setPromocionesReservadas(producto.getNombre());
 		}
+		Sistema.actualizarDatos();
 	}
 	
 	

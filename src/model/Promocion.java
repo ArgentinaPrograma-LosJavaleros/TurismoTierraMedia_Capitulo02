@@ -2,9 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import app.Sistema;
-import app.SistemaFront;
-
 public abstract class Promocion extends Sugerible {
 	
 	private TipoPromocion tipoPromocion;

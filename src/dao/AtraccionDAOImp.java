@@ -65,7 +65,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 		List<String> tipos= new ArrayList<String> (); 
 		List<String> values= new ArrayList<String> (); 
 		
-		columnas.add("id_Atraccion");
+		columnas.add("id_atraccion");
 		columnas.add("nombre");
 		columnas.add("cupos");
 		columnas.add("tiempo");
@@ -91,7 +91,7 @@ public class AtraccionDAOImp implements AtraccionDAO {
 
 	@Override
 	public int delete(Atraccion t) throws SQLException {
-		return CRUD.delete("atracciones", "id_Atraccion", t.getId().toString(), "int");
+		return CRUD.delete("atracciones", "id_atraccion", t.getId().toString(), "int");
 	}
 
 	@Override

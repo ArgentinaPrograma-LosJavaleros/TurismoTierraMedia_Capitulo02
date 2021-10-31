@@ -11,7 +11,6 @@ import model.Atraccion;
 import model.PromoAxB;
 import model.Promocion;
 import model.Sugerible;
-import model.Tematica;
 import model.Ticket;
 import model.Usuario;
 
@@ -115,10 +114,17 @@ public class Sistema {
 			}
 		}
 		
+		if (ticket.getMonedasGastadas() != 0) {
+			System.out.println(ticket);
+			crearTicket(ticket);
+			actualizarDatos();
+		} else {
+			System.out.println("");
+			System.out.println("No se pudo efectuar la compra... ¡¡¡Gracias por visitar Turismo en la Tierra Media!!!");
+		}
+		
 		ingreso.close();
-		System.out.println(ticket);
-//		crearTicket(ticket);
-//		actualizarDatos();
+		
 	}
 
 	public static boolean verificarSugerible(Sugerible producto, Ticket ticket) throws SQLException {
@@ -166,15 +172,13 @@ public class Sistema {
 		setAtracciones((ArrayList<Atraccion>) aC.findAll());
 		setUsuarios((ArrayList<Usuario>) uC.findAll());
 	}
+	
 	public static void actualizarDatos() throws SQLException, NoExisteTematicaException {
-		for (Promocion p: getPromociones())
-			pC.update(p);
-		for (Atraccion a: getAtracciones())
-			aC.update(a);
 		for (Usuario u: getUsuarios())
 			uC.update(u);
 		cargarDatos();
 	}
+	
 	public static void crearTicket(Ticket t)throws SQLException, FileNotFoundException, IOException {
 		t.setId(tC.countAll()+1);
 		tC.insert(t);

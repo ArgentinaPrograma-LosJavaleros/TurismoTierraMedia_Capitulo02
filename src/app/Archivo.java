@@ -1,11 +1,13 @@
 package app;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -166,10 +168,28 @@ public class Archivo {
 		}
 		throw new NoExisteAtraccionException("NO existe la atraccion \"" + nombre + "\"");
 	}
+	
+	private static void crearArchivo(String nombreArchivo) {
+        try {
+            File file = new File(DIRECCION_ARCHIVO + nombreArchivo);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("");
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
 
 	public static Ticket generarTicket(Ticket ticket, boolean noSobrescribir)
 			throws IOException, FileNotFoundException {
-		PrintWriter pw = new PrintWriter(new FileWriter(DIRECCION_ARCHIVO + "tickets.txt", noSobrescribir));
+		
+		String archivo = LocalDate.now() + "_" + ticket.getComprador() + ".txt";
+		crearArchivo(archivo);
+		PrintWriter pw = new PrintWriter(new FileWriter(DIRECCION_ARCHIVO + archivo, noSobrescribir));
 		
 		pw.println(" ______________________________________________");
 		pw.println("|                                              |");
@@ -200,36 +220,5 @@ public class Archivo {
 
 		return ticket;
 	}
-	
-//	public static void parseCSV(String path) {
-//		Scanner sc = null;
-//		PrintWriter pw = null;
-//		try {
-//
-//			sc = iniciarScanner(path);
-//			pw = new PrintWriter(new FileWriter(DIRECCION_PRINCIPAL + "\\archivoscsv\\" + path.replace(".txt", ".csv"), false));
-//
-//			while (sc.hasNext()) {
-//
-//				String line = sc.nextLine();
-//				
-//				
-//				line = line.replace(' ', ',')
-//						   .replace('_', ' ');
-//				
-//				pw.println(line);
-//				
-//			}
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			sc.close();
-//			pw.close();
-//		}
-//
-//	}
 	
 }

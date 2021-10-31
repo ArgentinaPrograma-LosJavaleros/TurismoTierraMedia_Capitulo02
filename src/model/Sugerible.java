@@ -1,8 +1,5 @@
 package model;
 
-import app.Sistema;
-import app.SistemaFront;
-
 public abstract class Sugerible implements Comparable<Sugerible> {
 	
 	protected Integer id;
